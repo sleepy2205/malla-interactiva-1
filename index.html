@@ -1,248 +1,438 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🎀 Plan de estudio medicina UNITEC 🩺</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@1,700&display=swap');
-
-    body {
-      font-family: 'Comic Neue', cursive;
-      background: #fff0f6;
-      margin: 0;
-      padding: 1rem;
-      color: #d6006e;
-      background-image: url('https://i.pinimg.com/originals/f9/34/4e/f9344eae6e0f41d765d1a4b17aa77514.jpg');
-      background-size: 150px;
-      background-repeat: repeat;
-    }
-
-    h1, h2 {
-      color: #d6006e;
-      text-shadow: 1px 1px 2px #fff;
-      text-align: center;
-    }
-
-    .periodo {
-      margin-bottom: 2rem;
-    }
-
-    .clase {
-      width: 120px;
-      height: 120px;
-      background: #ffe6f1;
-      border: 2px dashed #ff69b4;
-      border-radius: 1rem;
-      padding: 0.5rem;
-      margin: 0.5rem;
-      box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
-      cursor: pointer;
-      transition: transform 0.2s;
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 0.75rem;
-    }
-
-    .clase:hover {
-      transform: scale(1.05);
-      background-color: #ffd6ea;
-    }
-
-    .completada {
-      text-decoration: line-through;
-      opacity: 0.5;
-      background-color: #fdddf0;
-    }
-
-    .bloqueada {
-      pointer-events: none;
-      opacity: 0.3;
-    }
-
-    #uv-total {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 1rem 0;
-      color: #cc0077;
-      text-align: center;
-    }
-
-    button {
-      background: #ff69b4;
-      color: white;
-      border: none;
-      border-radius: 1rem;
-      padding: 0.6rem 1.2rem;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(255, 20, 147, 0.4);
-      display: block;
-      margin: 1rem auto;
-    }
-
-    button:hover {
-      background: #ff1493;
-    }
-
-    .hello-kitty {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .hello-kitty img {
-      max-width: 90px;
-      height: auto;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Interactiva Medicina</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f0ff;
+    margin: 20px;
+    color: #330066;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 10px;
+  }
+  #kitty-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin: 0 auto 10px auto;
+    display: block;
+  }
+  #year-selector {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+  }
+  #grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    max-width: 1000px;
+    margin: 0 auto 20px auto;
+  }
+  .class-box {
+    background-color: #a080c5;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    user-select: none;
+    cursor: pointer;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+    transition: background-color 0.3s;
+    font-size: 0.85em;
+  }
+  .class-box.locked {
+    background-color: #d3c9e8;
+    color: #555;
+    cursor: not-allowed;
+    text-decoration: none;
+  }
+  .class-box.toggled {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  .class-code {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .class-uv {
+    font-weight: 600;
+    font-size: 1em;
+  }
+  #uv-counter {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  #reset-btn {
+    padding: 8px 15px;
+    background-color: #330066;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1em;
+  }
+  #reset-btn:hover {
+    background-color: #552288;
+  }
+</style>
 </head>
 <body>
-  <div class="hello-kitty">
-    <img id="kitty-img" src="https://i.pinimg.com/originals/0e/e1/91/0ee19199e60c1b21a6faed08cf607236.png" alt="Hello Kitty médica">
+  <img id="kitty-image" src="" alt="Hello Kitty Médica" />
+  <h1>Malla Interactiva Medicina</h1>
+  <div id="year-selector">
+    Año: 
+    <select id="year-select">
+      <option value="1">Primer Año</option>
+      <option value="2">Segundo Año</option>
+      <option value="3">Tercer Año</option>
+      <option value="4">Cuarto Año</option>
+      <option value="5">Quinto Año</option>
+      <option value="6">Sexto Año</option>
+      <option value="7">Séptimo Año</option>
+    </select>
   </div>
+  <div id="uv-counter">UV acumuladas: 0</div>
+  <div id="grid-container"></div>
+  <button id="reset-btn">Reiniciar progreso</button>
 
-  <h1>🎀 Plan de estudio medicina UNITEC 🩺</h1>
-  <div id="uv-total">Créditos completados: 0 / 347</div>
-  <button onclick="reiniciar()">Reiniciar progreso</button>
-  <div id="contenedor-malla"></div>
 <script>
-  const clases = [
-    {
-      periodo: "1. Período 1",
-      anio: 1,
-      clases: [
-        { codigo: "MAT101", nombre: "Introducción al álgebra", creditos: 4, requisitos: [] },
-        { codigo: "MDE109", nombre: "Desarrollo humano y social", creditos: 4, requisitos: [] },
-        { codigo: "MDE110", nombre: "Procesos celulares y moleculares 1", creditos: 3, requisitos: [] },
-        { codigo: "MDE111", nombre: "Estructura y función 1", creditos: 4, requisitos: [] }
-      ]
-    },
-    {
-      periodo: "2. Período 2",
-      anio: 1,
-      clases: [
-        { codigo: "MAT102", nombre: "Álgebra", creditos: 4, requisitos: ["MAT101"] },
-        { codigo: "MDE112", nombre: "Estilo de vida, salud y medio ambiente", creditos: 4, requisitos: [] },
-        { codigo: "MDE113", nombre: "Procesos celulares y moleculares 2", creditos: 3, requisitos: ["MDE110"] },
-        { codigo: "MDE114", nombre: "Estructura y función 2", creditos: 4, requisitos: ["MDE111"] }
-      ]
-    },
-    {
-      periodo: "3. Período 3",
-      anio: 2,
-      clases: [
-        { codigo: "MDE115", nombre: "Bases de la terapéutica medicamentosa", creditos: 4, requisitos: ["MDE113"] },
-        { codigo: "MDE116", nombre: "Procesos celulares y moleculares 3", creditos: 3, requisitos: ["MDE113"] },
-        { codigo: "MDE117", nombre: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1", creditos: 4, requisitos: ["MDE114"] },
-        { codigo: "MDE203", nombre: "Prácticas médicas 1", creditos: 4, requisitos: ["MDE113", "MDE114"] }
-      ]
-    }
-    // Puedes seguir agregando más períodos y años con el mismo formato...
-  ];
+// Datos de clases por año y periodo
+const classesData = {
+  1: [ // Primer Año
+    { code: "MAT101", name: "Introducción al álgebra", uv: 4, requisitos: [] },
+    { code: "MDE109", name: "Desarrollo humano y social", uv: 4, requisitos: [] },
+    { code: "MDE110", name: "Procesos celulares y moleculares 1", uv: 3, requisitos: [] },
+    { code: "MDE111", name: "Estructura y función 1", uv: 4, requisitos: [] },
 
-  const imagenesPorAnio = {
-    1: "https://i.pinimg.com/originals/0e/e1/91/0ee19199e60c1b21a6faed08cf607236.png",
-    2: "https://i.pinimg.com/originals/8f/36/00/8f36009395b948bbed8f9586d2b5be3c.png",
-    3: "https://i.pinimg.com/originals/0b/c5/10/0bc5107a0a9f1ee16f0e5f5c9cf39c31.png",
-    4: "https://i.pinimg.com/originals/c7/97/e6/c797e6bfa417c84a9b27cdba4bb79d9a.png",
-    5: "https://i.pinimg.com/originals/5b/3f/89/5b3f89c68c4a142c6c780593319ebee4.png",
-    6: "https://i.pinimg.com/originals/0f/e7/30/0fe730e327b5abbd78d8db89c51b2e4e.png",
-    7: "https://i.pinimg.com/originals/1b/9f/03/1b9f03cf350f69ef96be11e5d87971f0.png"
-  };
+    { code: "MAT102", name: "Algebra", uv: 4, requisitos: ["MAT101"] },
+    { code: "MDE112", name: "Estilo de vida, salud y medio ambiente", uv: 4, requisitos: [] },
+    { code: "MDE113", name: "Procesos celulares y moleculares 2", uv: 3, requisitos: ["MDE110"] },
+    { code: "MDE114", name: "Estructura y función 2", uv: 4, requisitos: ["MDE111"] },
 
-  const progreso = JSON.parse(localStorage.getItem("progreso-malla")) || {};
-  const contenedor = document.getElementById("contenedor-malla");
-  const kittyImg = document.getElementById("kitty-img");
-  const creditosTotales = 347;
-  function guardarProgreso() {
-    localStorage.setItem("progreso-malla", JSON.stringify(progreso));
-  }
+    { code: "MDE115", name: "Bases de la terapéutica medicamentosa", uv: 4, requisitos: ["MDE113"] },
+    { code: "MDE116", name: "Procesos celulares y moleculares 3", uv: 3, requisitos: ["MDE113"] },
+    { code: "MDE117", name: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1", uv: 4, requisitos: ["MDE114"] },
+    { code: "MDE203", name: "Prácticas médicas 1", uv: 4, requisitos: ["MDE113", "MDE114"] },
 
-  function calcularCreditos() {
-    let total = 0;
-    for (const codigo in progreso) {
-      if (progreso[codigo]) {
-        const clase = encontrarClasePorCodigo(codigo);
-        if (clase) total += clase.creditos;
+    { code: "ESP103", name: "Comunicación oral y escrita", uv: 4, requisitos: [] },
+    { code: "MDE118", name: "Mecanismos de agresión y defensa 1", uv: 4, requisitos: ["MDE116"] },
+    { code: "MDE119", name: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2", uv: 4, requisitos: ["MDE117"] },
+    { code: "MDE216", name: "Prácticas médicas 2", uv: 4, requisitos: ["MDE203"] }
+  ],
+  2: [ // Segundo Año
+    { code: "ING105", name: "Inglés 1 / Electiva idioma extranjero 1", uv: 3, requisitos: [] },
+    { code: "MDE217", name: "Mecanismos de agresión y defensa 2", uv: 4, requisitos: ["MDE118"] },
+    { code: "MDE218", name: "SO 2 - Digestión, absorción, reproducción y control endocrino 1", uv: 4, requisitos: [] },
+    { code: "MDE219", name: "Prácticas médicas 3", uv: 4, requisitos: ["MDE216"] },
+
+    { code: "ING106", name: "Inglés 2 / Electiva idioma extranjero 2", uv: 3, requisitos: ["ING105"] },
+    { code: "MDE220", name: "Mecanismos de agresión y defensa 3", uv: 4, requisitos: ["MDE217"] },
+    { code: "MDE221", name: "SO 2 - Digestión, absorción, reproducción y control endocrino 2", uv: 4, requisitos: ["MDE218"] },
+    { code: "MDE222", name: "Prácticas médicas 4", uv: 4, requisitos: ["MDE219"] },
+
+    { code: "ING107", name: "Inglés 3 / Electiva idioma extranjero 3", uv: 3, requisitos: ["ING106"] },
+    { code: "MDE223", name: "Mecanismos de agresión y defensa 4", uv: 4, requisitos: ["MDE220"] },
+    { code: "MDE224", name: "SO 3 - Soporte, locomoción y control neural 1", uv: 4, requisitos: [] },
+    { code: "MDE225", name: "Prácticas médicas 5", uv: 4, requisitos: ["MDE222"] },
+
+    { code: "ING108", name: "Inglés 4 / Electiva idioma extranjero 4", uv: 3, requisitos: ["ING107"] },
+    { code: "MDE226", name: "Neurociencias y comportamiento", uv: 4, requisitos: [] },
+    { code: "MDE227", name: "SO 3 - Soporte, locomoción y control neural 2", uv: 4, requisitos: ["MDE224"] },
+    { code: "MDE228", name: "Prácticas médicas 6", uv: 4, requisitos: ["MDE225"] }
+  ],
+  3: [ // Tercer Año
+    { code: "ING109", name: "Inglés 5 / Electiva idioma extranjero 1", uv: 3, requisitos: ["ING108"] },
+    { code: "MDE315", name: "Salud infantil y del adolescente", uv: 5, requisitos: [] },
+    { code: "MDE316", name: "Salud de la mujer", uv: 5, requisitos: [] },
+    { code: "MDE317", name: "Clínica integrada 1", uv: 3, requisitos: [] },
+
+    { code: "ING110", name: "Inglés 6 / Electiva idioma extranjero 2", uv: 3, requisitos: ["ING109"] },
+    { code: "MDE318", name: "Sistemas de salud", uv: 4, requisitos: [] },
+    { code: "MDE319", name: "Salud del adulto", uv: 5, requisitos: [] },
+    { code: "MDE320", name: "Clínica integrada 2", uv: 3, requisitos: ["MDE317"] },
+
+    { code: "ING111", name: "Inglés 7 / Electiva idioma extranjero 3", uv: 3, requisitos: ["ING110"] },
+    { code: "MDE321", name: "Prevención y promoción de la salud 1", uv: 4, requisitos: [] },
+    { code: "MDE322", name: "Salud del adulto mayor", uv: 5, requisitos: [] },
+    { code: "MDE323", name: "Clínica integrada 3", uv: 3, requisitos: ["MDE320"] },
+
+    { code: "ING112", name: "Inglés 8 / Electiva idioma extranjero 4", uv: 3, requisitos: ["ING111"] },
+    { code: "MDE324", name: "Prevención y promoción de la salud 2", uv: 4, requisitos: ["MDE321"] },
+    { code: "MDE325", name: "Salud mental", uv: 5, requisitos: [] },
+    { code: "MDE326", name: "Clínica integrada 4", uv: 3, requisitos: ["MDE323"] }
+  ],
+  4: [ // Cuarto Año
+    { code: "LCC104", name: "Ofimática avanzada", uv: 2, requisitos: [] },
+    { code: "MDE407", name: "Medicina interna 1", uv: 5, requisitos: [] },
+    { code: "MDE408", name: "Pediatría 1", uv: 5, requisitos: [] },
+    { code: "BMD429", name: "Tecnologías biomédicas 1", uv: 3, requisitos: [] },
+
+    { code: "SOC101", name: "Sociología", uv: 3, requisitos: [] },
+    { code: "MDE409", name: "Cirugía 1", uv: 5, requisitos: [] },
+    { code: "MDE410", name: "Ginecología y obstetricia 1", uv: 5, requisitos: [] },
+
+    { code: "FIL101", name: "Filosofía", uv: 3, requisitos: [] },
+    { code: "MDE411", name: "Urgencias y emergencias 1", uv: 5, requisitos: [] },
+    { code: "MDE412", name: "Seminarios integradores 1", uv: 3, requisitos: [] },
+
+    { code: "MDE208", name: "Metodología de investigación", uv: 3, requisitos: [] },
+    { code: "MDE413", name: "Temas avanzados en práctica médica 1", uv: 4, requisitos: [] },
+    { code: "MDE414", name: "Medicina alternativa y complementaria", uv: 4, requisitos: [] }
+  ],
+  5: [ // Quinto Año
+    { code: "HIS101", name: "Historia de Honduras", uv: 3, requisitos: [] },
+    { code: "MDE508", name: "Medicina interna 2", uv: 5, requisitos: ["MDE407"] },
+    { code: "MDE509", name: "Pediatría 2", uv: 5, requisitos: ["MDE408"] },
+    { code: "BMD430", name: "Tecnologías biomédicas 2", uv: 3, requisitos: ["BMD429"] },
+
+    { code: "ARTDEP", name: "Electiva arte / deporte", uv: 3, requisitos: [] },
+    { code: "MDE510", name: "Cirugía 2", uv: 5, requisitos: ["MDE409"] },
+    { code: "MDE511", name: "Ginecología y obstetricia 2", uv: 5, requisitos: ["MDE410"] },
+
+    { code: "MDE212", name: "Generación de empresas en salud", uv: 3, requisitos: ["MDE208"] },
+    { code: "MDE512", name: "Urgencias y emergencias 2", uv: 5, requisitos: ["MDE411"] },
+    { code: "MDE513", name: "Seminarios integradores 2", uv: 3, requisitos: ["MDE412"] },
+
+    { code: "MDE304", name: "Gestión de servicios en salud", uv: 3, requisitos: ["MDE212"] },
+    { code: "MDE514", name: "Temas avanzados en práctica médica 2", uv: 4, requisitos: ["MDE413"] },
+    { code: "MDE515", name: "Cuidados paliativos y de hospicio", uv: 4, requisitos: [] }
+  ],
+  6: [ // Sexto Año
+    { code: "MDE605", name: "Internado ginecoobstetrícia", uv: 16, requisitos: [] },
+    { code: "MDE606", name: "Internado pediatría", uv: 16, requisitos: [] },
+    { code: "MDE607", name: "Internado cirugía", uv: 16, requisitos: [] },
+    { code: "MDE608", name: "Internado medicina interna", uv: 16, requisitos: [] }
+  ],
+  7: [ // Séptimo Año
+    { code: "MDE702", name: "Servicio social obligatorio 1 año", uv: 0, requisitos: [] },
+    { code: "MDE703", name: "Servicio social obligatorio 6 meses", uv: 0, requisitos: [] }
+  ]
+};
+
+// Imágenes de Hello Kitty por año
+const kittyImages = {
+  1: "https://i.imgur.com/7z7RcGd.png", // ejemplo imagen Hello Kitty médica año 1
+  2: "https://i.imgur.com/BjFSPpb.png",
+  3: "https://i.imgur.com/q2u7EBN.png",
+  4: "https://i.imgur.com/NynY7XK.png",
+  5: "https://i.imgur.com/KjoXjVh.png",
+  6: "https://i.imgur.com/9QcGfXv.png",
+  7: "https://i.imgur.com/dpkvP3k.png"
+};
+
+const yearSelect = document.getElementById("year-select");
+const gridContainer = document.getElementById("grid-container");
+const kittyImage = document.getElementById("kitty-image");
+const uvCounter = document.getElementById("uv-counter");
+const resetBtn = document.getElementById("reset-btn");
+
+let toggledClasses = {}; // código: true (tachado)
+
+// Cargar estado guardado de localStorage
+function loadProgress() {
+  const saved = localStorage.getItem("medProgress");
+  toggledClasses = saved ? JSON.parse(saved) : {};
+}
+
+// Guardar estado en localStorage
+function saveProgress() {
+  localStorage.setItem("medProgress", JSON.stringify(toggledClasses));
+}
+
+// Comprobar si todos los requisitos están tachados
+function requisitosCumplidos(requisitos) {
+  return requisitos.every(req => toggledClasses[req] === true);
+}
+
+// Actualizar contador UV
+function actualizarUV() {
+  let total = 0;
+  for (const code in toggledClasses) {
+    if (toggledClasses[code]) {
+      for (const year in classesData) {
+        const cls = classesData[year].find(c => c.code === code);
+        if (cls) total += cls.uv;
       }
     }
-    document.getElementById("uv-total").textContent = `Créditos completados: ${total} / ${creditosTotales}`;
   }
+  uvCounter.textContent = `UV acumuladas: ${total}`;
+}
 
-  function encontrarClasePorCodigo(codigo) {
-    for (const periodo of clases) {
-      for (const clase of periodo.clases) {
-        if (clase.codigo === codigo) return clase;
-      }
+// Crear la cuadrícula de clases para el año seleccionado
+function renderYear(year) {
+  gridContainer.innerHTML = "";
+  kittyImage.src = kittyImages[year] || kittyImages[1];
+  const clases = classesData[year];
+  if (!clases) return;
+
+  clases.forEach(cls => {
+    const box = document.createElement("div");
+    box.className = "class-box";
+    box.dataset.code = cls.code;
+
+    // Si requisitos NO cumplidos y no es clase sin requisitos, bloqueado
+    if (!requisitosCumplidos(cls.requisitos) && cls.requisitos.length > 0) {
+      box.classList.add("locked");
     }
-    return null;
-  }
 
-  function requisitosCumplidos(requisitos) {
-    if (!requisitos || requisitos.length === 0) return true;
-    if (requisitos.includes("ALL")) {
-      return clases.every(periodo =>
-        periodo.clases.every(clase => progreso[clase.codigo])
-      );
+    if (toggledClasses[cls.code]) {
+      box.classList.add("toggled");
     }
-    return requisitos.every(req => progreso[req]);
-  }
 
-  function renderizar() {
-    contenedor.innerHTML = "";
-    let ultimoAnio = null;
+    box.innerHTML = `
+      <div class="class-code">${cls.code}</div>
+      <div class="class-name">${cls.name}</div>
+      <div class="class-uv">UV: ${cls.uv}</div>
+    `;
 
-    clases.forEach(periodo => {
-      if (periodo.anio !== ultimoAnio) {
-        // Cambiar imagen de Hello Kitty por año
-        kittyImg.src = imagenesPorAnio[periodo.anio] || "";
-        ultimoAnio = periodo.anio;
+    box.addEventListener("click", () => {
+      if (box.classList.contains("locked")) return;
+
+      if (toggledClasses[cls.code]) {
+        // Destachar
+        delete toggledClasses[cls.code];
+        box.classList.remove("toggled");
+      } else {
+        // Tachado
+        toggledClasses[cls.code] = true;
+        box.classList.add("toggled");
       }
 
-      const divPeriodo = document.createElement("div");
-      divPeriodo.className = "periodo";
-      const h2 = document.createElement("h2");
-      h2.textContent = periodo.periodo;
-      divPeriodo.appendChild(h2);
-
-      periodo.clases.forEach(clase => {
-        const divClase = document.createElement("div");
-        divClase.className = "clase";
-        divClase.id = clase.codigo;
-        divClase.textContent = `${clase.codigo} - ${clase.nombre} (C. ${clase.creditos})`;
-
-        const completada = progreso[clase.codigo];
-        const desbloqueada = requisitosCumplidos(clase.requisitos);
-
-        if (completada) divClase.classList.add("completada");
-        else if (!desbloqueada) divClase.classList.add("bloqueada");
-
-        divClase.onclick = () => {
-          if (!desbloqueada) return;
-          progreso[clase.codigo] = !progreso[clase.codigo];
-          guardarProgreso();
-          renderizar();
-        };
-
-        divPeriodo.appendChild(divClase);
-      });
-
-      contenedor.appendChild(divPeriodo);
+      // Actualizar todas las clases para desbloquear o bloquear según requisitos
+      renderYear(yearSelect.value);
+      actualizarUV();
+      saveProgress();
     });
 
-    calcularCreditos();
-  }
+    gridContainer.appendChild(box);
+  });
 
-  function reiniciar() {
-    if (confirm("¿Estás segura de que deseas reiniciar tu progreso?")) {
-      localStorage.removeItem("progreso-malla");
-      location.reload();
-    }
-  }
+  actualizarUV();
+}
 
-  renderizar();
-</script>
+// Reiniciar progreso
+resetBtn.addEventListener("click", () => {
+  if (confirm("¿Seguro que quieres reiniciar todo el progreso?")) {
+    toggledClasses = {};
+    saveProgress();
+    renderYear(yearSelect.value);
+    actualizarUV();
+  }
+});
+
+// Evento cambio de año
+yearSelect.addEventListener("change", () => {
+  renderYear(yearSelect.value);
+});
+
+// Inicializar
+loadProgress();
+renderYear(yearSelect.value);
+actualizarUV();
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f7f0fc;
+    color: #3c0e64;
+    margin: 20px;
+    text-align: center;
+  }
+  #kitty-image {
+    width: 120px;
+    height: auto;
+    margin: 0 auto 10px auto;
+    display: block;
+  }
+  h1 {
+    color: #5b2ca3;
+    margin-bottom: 15px;
+  }
+  #year-select {
+    font-size: 16px;
+    padding: 6px 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: 2px solid #7d4ec7;
+    background: #ede4f8;
+    color: #3c0e64;
+    cursor: pointer;
+  }
+  #grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+  }
+  .class-box {
+    background: #a68ddd;
+    border-radius: 15px;
+    padding: 12px 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(82, 31, 123, 0.3);
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1; /* CUADRADOS */
+    transition: background-color 0.3s, color 0.3s;
+  }
+  .class-box:hover:not(.locked) {
+    background: #6b4ea4;
+    color: #eae1f9;
+  }
+  .class-box.toggled {
+    background: #3c0e64;
+    color: #fff;
+    text-decoration: line-through;
+  }
+  .class-box.locked {
+    background: #d3c1e5;
+    color: #8f7da0;
+    cursor: not-allowed;
+    text-decoration: none;
+  }
+  .class-code {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .class-name {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .class-uv {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  #uv-counter {
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  #reset-btn {
+    background-color: #7d4ec7;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(82, 31, 123, 0.4);
+    transition: background-color 0.3s;
+  }
+  #reset-btn:hover {
+    background-color: #5b2ca3;
+  }
+</style>
