@@ -4,60 +4,94 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Malla Interactiva Medicina</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #fef6f9;
-      margin: 0;
-      padding: 1rem;
-      color: #333;
-    }
-    h1, h2 {
-      color: #b8005d;
-    }
-    .periodo {
-      margin-bottom: 2rem;
-    }
-    .clase {
-      background: #ffc7dc;
-      border-radius: 1rem;
-      padding: 1rem;
-      margin: 0.5rem 0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .clase:hover {
-      transform: scale(1.02);
-    }
-    .completada {
-      text-decoration: line-through;
-      opacity: 0.6;
-    }
-    .bloqueada {
-      pointer-events: none;
-      opacity: 0.3;
-    }
-    #uv-total {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 1rem 0;
-    }
-    button {
-      background: #b8005d;
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #930048;
-    }
-  </style>
+ <style>
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@1,700&display=swap');
+
+  body {
+    font-family: 'Comic Neue', cursive;
+    background: #fff0f6;
+    margin: 0;
+    padding: 1rem;
+    color: #d6006e;
+    background-image: url('https://i.imgur.com/QuvVcyN.png'); /* Fondo hello kitty suave */
+    background-size: 150px;
+    background-repeat: repeat;
+  }
+
+  h1, h2 {
+    color: #d6006e;
+    text-shadow: 1px 1px 2px #fff;
+    text-align: center;
+  }
+
+  .periodo {
+    margin-bottom: 2rem;
+  }
+
+  .clase {
+    background: #ffe6f1;
+    border: 2px dashed #ff69b4;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+  }
+
+  .clase:hover {
+    transform: scale(1.03);
+    background-color: #ffd6ea;
+  }
+
+  .completada {
+    text-decoration: line-through;
+    opacity: 0.5;
+    background-color: #fdddf0;
+  }
+
+  .bloqueada {
+    pointer-events: none;
+    opacity: 0.3;
+  }
+
+  #uv-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    color: #cc0077;
+    text-align: center;
+  }
+
+  button {
+    background: #ff69b4;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(255, 20, 147, 0.4);
+    display: block;
+    margin: 1rem auto;
+  }
+
+  button:hover {
+    background: #ff1493;
+  }
+
+  .clase::before {
+    content: "🩺 ";
+    position: absolute;
+    left: -1.5rem;
+    font-size: 1.2rem;
+  }
+</style>
 </head>
 <body>
-  <h1>Malla Interactiva de Medicina</h1>
+  <h1>🎀 Plan de estudio medicina UNITEC 🩺</h1>
   <div id="uv-total">Créditos completados: 0 / 347</div>
   <button onclick="reiniciar()">Reiniciar progreso</button>
   <div id="contenedor-malla"></div>
