@@ -29,20 +29,26 @@
     }
 
     .clase {
+      width: 120px;
+      height: 120px;
       background: #ffe6f1;
       border: 2px dashed #ff69b4;
       border-radius: 1rem;
-      padding: 1rem;
-      margin: 0.5rem 0;
+      padding: 0.5rem;
+      margin: 0.5rem;
       box-shadow: 0 3px 6px rgba(255, 105, 180, 0.3);
       cursor: pointer;
       transition: transform 0.2s;
       position: relative;
-      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.75rem;
     }
 
     .clase:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
       background-color: #ffd6ea;
     }
 
@@ -77,433 +83,166 @@
       box-shadow: 0 2px 5px rgba(255, 20, 147, 0.4);
       display: block;
       margin: 1rem auto;
-      user-select: none;
     }
 
     button:hover {
       background: #ff1493;
     }
 
-    .clase::before {
-      content: "🩺 ";
-      position: absolute;
-      left: -1.5rem;
-      font-size: 1.2rem;
-    }
-
-    .anio-imagen {
+    .hello-kitty {
       text-align: center;
-      margin: 1rem 0;
+      margin-bottom: 1rem;
     }
 
-    .anio-imagen img {
-      max-width: 120px;
+    .hello-kitty img {
+      max-width: 90px;
       height: auto;
     }
   </style>
 </head>
 <body>
+  <div class="hello-kitty">
+    <img id="kitty-img" src="https://i.pinimg.com/originals/0e/e1/91/0ee19199e60c1b21a6faed08cf607236.png" alt="Hello Kitty médica">
+  </div>
+
   <h1>🎀 Plan de estudio medicina UNITEC 🩺</h1>
   <div id="uv-total">Créditos completados: 0 / 347</div>
   <button onclick="reiniciar()">Reiniciar progreso</button>
   <div id="contenedor-malla"></div>
-
-  <script>
-    // Datos de la malla, solo objetos JS, sin HTML
-    const clases = [
-      // Año 1
-      {
-        periodo: "1. Período 1",
-        anio: 1,
-        clases: [
-          { codigo: "MAT101", nombre: "Introducción al álgebra", creditos: 4, requisitos: [] },
-          { codigo: "MDE109", nombre: "Desarrollo humano y social", creditos: 4, requisitos: [] },
-          { codigo: "MDE110", nombre: "Procesos celulares y moleculares 1", creditos: 3, requisitos: [] },
-          { codigo: "MDE111", nombre: "Estructura y función 1", creditos: 4, requisitos: [] }
-        ]
-      },
-      {
-        periodo: "2. Período 2",
-        anio: 1,
-        clases: [
-          { codigo: "MAT102", nombre: "Álgebra", creditos: 4, requisitos: ["MAT101"] },
-          { codigo: "MDE112", nombre: "Estilo de vida, salud y medio ambiente", creditos: 4, requisitos: [] },
-          { codigo: "MDE113", nombre: "Procesos celulares y moleculares 2", creditos: 3, requisitos: ["MDE110"] },
-          { codigo: "MDE114", nombre: "Estructura y función 2", creditos: 4, requisitos: ["MDE111"] }
-        ]
-      },
-      {
-        periodo: "3. Período 3",
-        anio: 1,
-        clases: [
-          { codigo: "MDE115", nombre: "Bases de la terapéutica medicamentosa", creditos: 4, requisitos: ["MDE113"] },
-          { codigo: "MDE116", nombre: "Procesos celulares y moleculares 3", creditos: 3, requisitos: ["MDE113"] },
-          { codigo: "MDE117", nombre: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1", creditos: 4, requisitos: ["MDE114"] },
-          { codigo: "MDE203", nombre: "Prácticas médicas 1", creditos: 4, requisitos: ["MDE113", "MDE114"] }
-        ]
-      },
-      {
-        periodo: "4. Período 4",
-        anio: 1,
-        clases: [
-          { codigo: "ESP103", nombre: "Comunicación oral y escrita", creditos: 4, requisitos: [] },
-          { codigo: "MDE118", nombre: "Mecanismos de agresión y defensa 1", creditos: 4, requisitos: ["MDE116"] },
-          { codigo: "MDE119", nombre: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2", creditos: 4, requisitos: ["MDE117"] },
-          { codigo: "MDE216", nombre: "Prácticas médicas 2", creditos: 4, requisitos: ["MDE203"] }
-        ]
-      },
-
-      // Año 2
-      {
-        periodo: "5. Período 5",
-        anio: 2,
-        clases: [
-          { codigo: "ING105/EIEA1", nombre: "Inglés 1 / Electiva de idioma extranjero 1", creditos: 3, requisitos: [] },
-          { codigo: "MDE217", nombre: "Mecanismos de agresión y defensa 2", creditos: 4, requisitos: ["MDE118"] },
-          { codigo: "MDE218", nombre: "SO 2 - Digestión y absorción, reproducción y control endocrino 1", creditos: 4, requisitos: [] },
-          { codigo: "MDE219", nombre: "Prácticas médicas 3", creditos: 4, requisitos: ["MDE216"] }
-        ]
-      },
-      {
-        periodo: "6. Período 6",
-        anio: 2,
-        clases: [
-          { codigo: "ING106/EIEA2", nombre: "Inglés 2 / Electiva de idioma extranjero 2", creditos: 3, requisitos: ["ING105/EIEA1"] },
-          { codigo: "MDE220", nombre: "Mecanismos de agresión y defensa 3", creditos: 4, requisitos: ["MDE217"] },
-          { codigo: "MDE221", nombre: "SO 2 - Digestión y absorción, reproducción y control endocrino 2", creditos: 4, requisitos: ["MDE218"] },
-          { codigo: "MDE222", nombre: "Prácticas médicas 4", creditos: 4, requisitos: ["MDE219"] }
-        ]
-      },
-      {
-        periodo: "7. Período 7",
-        anio: 2,
-        clases: [
-          { codigo: "ING107/EIEA3", nombre: "Inglés 3 / Electiva de idioma extranjero 3", creditos: 3, requisitos: ["ING106/EIEA2"] },
-          { codigo: "MDE223", nombre: "Mecanismos de agresión y defensa 4", creditos: 4, requisitos: ["MDE220"] },
-          { codigo: "MDE224", nombre: "SO 3 - Soporte, locomoción y control neural 1", creditos: 4, requisitos: [] },
-          { codigo: "MDE225", nombre: "Prácticas médicas 5", creditos: 4, requisitos: ["MDE222"] }
-        ]
-      },
-      {
-        periodo: "8. Período 8",
-        anio: 2,
-        clases: [
-          { codigo: "ING108/EIEA4", nombre: "Inglés 4 / Electiva de idioma extranjero 4", creditos: 3, requisitos: ["ING107/EIEA3"] },
-          { codigo: "MDE226", nombre: "Neurociencias y comportamiento", creditos: 4, requisitos: [] },
-          { codigo: "MDE227", nombre: "SO 3 - Soporte, locomoción y control neural 2", creditos: 4, requisitos: ["MDE224"] },
-          { codigo: "MDE228", nombre: "Prácticas médicas 6", creditos: 4, requisitos: ["MDE225"] }
-        ]
-      },
-
-      // Año 3
-      {
-        periodo: "9. Período 9",
-        anio: 3,
-        clases: [
-          { codigo: "ING109/EIEB1", nombre: "Inglés 5 / Electiva de idioma extranjero 1", creditos: 3, requisitos: ["ING108/EIEA4"] },
-          { codigo: "MDE315", nombre: "Salud infantil y del adolescente", creditos: 5, requisitos: [] },
-          { codigo: "MDE316", nombre: "Salud de la mujer", creditos: 5, requisitos: [] },
-          { codigo: "MDE317", nombre: "Clínica integrada 1", creditos: 3, requisitos: [] }
-        ]
-      },
-      {
-        periodo: "10. Período 10",
-        anio: 3,
-        clases: [
-          { codigo: "ING110/EIEB2", nombre: "Inglés 6 / Electiva de idioma extranjero 2", creditos: 3, requisitos: ["ING109/EIEB1"] },
-          { codigo: "MDE318", nombre: "Sistemas de salud", creditos: 4, requisitos: [] },
-          { codigo: "MDE319", nombre: "Salud del adulto", creditos: 5, requisitos: [] },
-          { codigo: "MDE320", nombre: "Clínica integrada 2", creditos: 3, requisitos: ["MDE317"] }
-        ]
-      },
-      {
-        periodo: "11. Período 11",
-        anio: 3,
-        clases: [
-          { codigo: "ING111/EIEB3", nombre: "Inglés 7 / Electiva de idioma extranjero 3", creditos: 3, requisitos: ["ING110/EIEB2"] },
-          { codigo: "MDE321", nombre: "Prevención y promoción de la salud 1", creditos: 4, requisitos: [] },
-          { codigo: "MDE322", nombre: "Salud del adulto mayor", creditos: 5, requisitos: [] },
-          { codigo: "MDE323", nombre: "Clínica integrada 3", creditos: 3, requisitos: ["MDE320"] }
-        ]
-      },
-      {
-        periodo: "12. Período 12",
-        anio: 3,
-        clases: [
-          { codigo: "ING112/EIEB4", nombre: "Inglés 8 / Electiva de idioma extranjero 4", creditos: 3, requisitos: ["ING111/EIEB3"] },
-          { codigo: "MDE324", nombre: "Prevención y promoción de la salud 2", creditos: 4, requisitos: ["MDE321"] },
-          { codigo: "MDE325", nombre: "Salud mental", creditos: 5, requisitos: [] },
-          { codigo: "MDE326", nombre: "Clínica integrada 4", creditos: 3, requisitos: ["MDE323"] }
-        ]
-      },
-
-      // Año 4
-      {
-        periodo: "13. Período 13",
-        anio: 4,
-        clases: [
-          { codigo: "LCC104", nombre: "Ofimática avanzada", creditos: 2, requisitos: [] },
-          { codigo: "MDE407", nombre: "Medicina interna 1", creditos: 5, requisitos: [] },
-          { codigo: "MDE408", nombre: "Pediatría 1", creditos: 5, requisitos: [] },
-          { codigo: "BMD429", nombre: "Tecnologías biomédicas 1", creditos: 3, requisitos: [] }
-        ]
-      },
-      {
-        periodo: "14. Período 14",
-        anio: 4,
-        clases: [
-          { codigo: "SOC101", nombre: "Sociología", creditos: 3, requisitos: [] },
-          { codigo: "MDE409", nombre: "Cirugía 1", creditos: 5, requisitos: [] },
-          { codigo: "MDE410", nombre: "Ginecología y obstetricia 1", creditos: 5, requisitos: [] }
-        ]
-      },
-      {
-        periodo: "15. Período 15",
-        anio: 4,
-        clases: [
-          { codigo: "FIL101", nombre: "Filosofía", creditos: 3, requisitos: [] },
-          { codigo: "MDE411", nombre: "Urgencias y emergencias 1", creditos: 5, requisitos: [] },
-          { codigo: "MDE412", nombre: "Seminarios integradores 1", creditos: 3, requisitos: [] }
-        ]
-      },
-      {
-        periodo: "16. Período 16",
-        anio: 4,
-        clases: [
-          { codigo: "MDE208", nombre: "Metodología de investigación", creditos: 3, requisitos: [] },
-          { codigo: "MDE413", nombre: "Temas avanzados en práctica médica 1", creditos: 4, requisitos: [] },
-          { codigo: "MDE414", nombre: "Medicina alternativa y complementaria", creditos: 4, requisitos: [] }
-        ]
-      },
-
-      // Año 5
-      {
-        periodo: "17. Período 17",
-        anio: 5,
-        clases: [
-          { codigo: "HIS101", nombre: "Historia de Honduras", creditos: 3, requisitos: [] },
-          { codigo: "MDE508", nombre: "Medicina interna 2", creditos: 5, requisitos: ["MDE407"] },
-          { codigo: "MDE509", nombre: "Pediatría 2", creditos: 5, requisitos: ["MDE408"] },
-          { codigo: "BMD430", nombre: "Tecnologías biomédicas 2", creditos: 3, requisitos: ["BMD429"] }
-        ]
-      },
-      {
-        periodo: "18. Período 18",
-        anio: 5,
-        clases: [
-          { codigo: "ART/DEP", nombre: "Electiva arte / deporte", creditos: 3, requisitos: [] },
-          { codigo: "MDE510", nombre: "Cirugía 2", creditos: 5, requisitos: ["MDE409"] },
-          { codigo: "MDE511", nombre: "Ginecología y obstetricia 2", creditos: 5, requisitos: ["MDE410"] }
-        ]
-      },
-      {
-        periodo: "19. Período 19",
-        anio: 5,
-        clases: [
-          { codigo: "MDE212", nombre: "Generación de empresas en salud", creditos: 3, requisitos: ["MDE208"] },
-          { codigo: "MDE512", nombre: "Urgencias y emergencias 2", creditos: 5, requisitos: ["MDE411"] },
-          { codigo: "MDE513", nombre: "Seminarios integradores 2", creditos: 3, requisitos: ["MDE412"] }
-        ]
-      },
-      {
-        periodo: "20. Período 20",
-        anio: 5,
-        clases: [
-          { codigo: "MDE304", nombre: "Gestión de servicios en salud", creditos: 3, requisitos: ["MDE212"] },
-          { codigo: "MDE514", nombre: "Temas avanzados en práctica médica 2", creditos: 4, requisitos: ["MDE413"] },
-          { codigo: "MDE515", nombre: "Cuidados paliativos y de hospicio", creditos: 4, requisitos: [] }
-        ]
-      },
-
-      // Año 6
-      {
-        periodo: "21. Período 21",
-        anio: 6,
-        clases: [
-          { codigo: "MDE605", nombre: "Internado ginecoobstetricia", creditos: 16, requisitos: ["ALL"] }
-        ]
-      },
-      {
-        periodo: "22. Período 22",
-        anio: 6,
-        clases: [
-          { codigo: "MDE606", nombre: "Internado pediatría", creditos: 16, requisitos: ["ALL"] }
-        ]
-      },
-      {
-        periodo: "23. Período 23",
-        anio: 6,
-        clases: [
-          { codigo: "MDE607", nombre: "Internado medicina interna", creditos: 16, requisitos: ["ALL"] }
-        ]
-      },
-      {
-        periodo: "24. Período 24",
-        anio: 6,
-        clases: [
-          { codigo: "MDE608", nombre: "Internado cirugía", creditos: 16, requisitos: ["ALL"] }
-        ]
-      },
-
-      // Año 7
-      {
-        periodo: "25. Período 25",
-        anio: 7,
-        clases: [
-          { codigo: "MDE701", nombre: "Servicio social", creditos: 20, requisitos: ["MDE605", "MDE606", "MDE607", "MDE608"] }
-        ]
-      }
-    ];
-
-    // Imágenes para cada año
-    const imagenesPorAnio = {
-      1: "https://thumbs.dreamstime.com/b/icono-de-la-medicina-de-la-banda-de-rodilla-de-la-silueta-del-esquema-del-doodle-estilo-del-vector-ilustraci%C3%B3n-de-la-silueta-del-esquema-del-doodle-176503663.jpg",
-      2: "https://cdn-icons-png.flaticon.com/512/2579/2579334.png",
-      3: "https://cdn-icons-png.flaticon.com/512/1643/1643888.png",
-      4: "https://cdn-icons-png.flaticon.com/512/2757/2757400.png",
-      5: "https://cdn-icons-png.flaticon.com/512/2233/2233701.png",
-      6: "https://cdn-icons-png.flaticon.com/512/1783/1783567.png",
-      7: "https://cdn-icons-png.flaticon.com/512/4306/4306939.png"
-    };
-
-    // Guardar y cargar progreso en localStorage
-    function cargarProgreso() {
-      const datos = localStorage.getItem("mallaProgreso");
-      return datos ? JSON.parse(datos) : {};
+<script>
+  const clases = [
+    {
+      periodo: "1. Período 1",
+      anio: 1,
+      clases: [
+        { codigo: "MAT101", nombre: "Introducción al álgebra", creditos: 4, requisitos: [] },
+        { codigo: "MDE109", nombre: "Desarrollo humano y social", creditos: 4, requisitos: [] },
+        { codigo: "MDE110", nombre: "Procesos celulares y moleculares 1", creditos: 3, requisitos: [] },
+        { codigo: "MDE111", nombre: "Estructura y función 1", creditos: 4, requisitos: [] }
+      ]
+    },
+    {
+      periodo: "2. Período 2",
+      anio: 1,
+      clases: [
+        { codigo: "MAT102", nombre: "Álgebra", creditos: 4, requisitos: ["MAT101"] },
+        { codigo: "MDE112", nombre: "Estilo de vida, salud y medio ambiente", creditos: 4, requisitos: [] },
+        { codigo: "MDE113", nombre: "Procesos celulares y moleculares 2", creditos: 3, requisitos: ["MDE110"] },
+        { codigo: "MDE114", nombre: "Estructura y función 2", creditos: 4, requisitos: ["MDE111"] }
+      ]
+    },
+    {
+      periodo: "3. Período 3",
+      anio: 2,
+      clases: [
+        { codigo: "MDE115", nombre: "Bases de la terapéutica medicamentosa", creditos: 4, requisitos: ["MDE113"] },
+        { codigo: "MDE116", nombre: "Procesos celulares y moleculares 3", creditos: 3, requisitos: ["MDE113"] },
+        { codigo: "MDE117", nombre: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1", creditos: 4, requisitos: ["MDE114"] },
+        { codigo: "MDE203", nombre: "Prácticas médicas 1", creditos: 4, requisitos: ["MDE113", "MDE114"] }
+      ]
     }
+    // Puedes seguir agregando más períodos y años con el mismo formato...
+  ];
 
-    function guardarProgreso(progreso) {
-      localStorage.setItem("mallaProgreso", JSON.stringify(progreso));
-    }
+  const imagenesPorAnio = {
+    1: "https://i.pinimg.com/originals/0e/e1/91/0ee19199e60c1b21a6faed08cf607236.png",
+    2: "https://i.pinimg.com/originals/8f/36/00/8f36009395b948bbed8f9586d2b5be3c.png",
+    3: "https://i.pinimg.com/originals/0b/c5/10/0bc5107a0a9f1ee16f0e5f5c9cf39c31.png",
+    4: "https://i.pinimg.com/originals/c7/97/e6/c797e6bfa417c84a9b27cdba4bb79d9a.png",
+    5: "https://i.pinimg.com/originals/5b/3f/89/5b3f89c68c4a142c6c780593319ebee4.png",
+    6: "https://i.pinimg.com/originals/0f/e7/30/0fe730e327b5abbd78d8db89c51b2e4e.png",
+    7: "https://i.pinimg.com/originals/1b/9f/03/1b9f03cf350f69ef96be11e5d87971f0.png"
+  };
 
-    // Variable global progreso
-    let progreso = cargarProgreso();
+  const progreso = JSON.parse(localStorage.getItem("progreso-malla")) || {};
+  const contenedor = document.getElementById("contenedor-malla");
+  const kittyImg = document.getElementById("kitty-img");
+  const creditosTotales = 347;
+  function guardarProgreso() {
+    localStorage.setItem("progreso-malla", JSON.stringify(progreso));
+  }
 
-    // Función para verificar si una clase está desbloqueada (todos requisitos tachados)
-    function estaDesbloqueada(clase) {
-      // Caso especial para "ALL" (internados), requieren todos los códigos de las clases completadas:
-      if (clase.requisitos.includes("ALL")) {
-        // Requiere que todas las clases previas (de todos los años menos el actual) estén completadas
-        // Para simplificar, aquí verificamos que todas las clases anteriores estén completadas:
-        for (const per of clases) {
-          for (const c of per.clases) {
-            if (c.codigo !== clase.codigo && !progreso[c.codigo]) {
-              return false;
-            }
-          }
-        }
-        return true;
-      }
-
-      // Para requisitos normales:
-      for (const req of clase.requisitos) {
-        if (!progreso[req]) return false;
-      }
-      return true;
-    }
-
-    // Contar créditos completados
-    function contarCreditos() {
-      let suma = 0;
-      for (const per of clases) {
-        for (const c of per.clases) {
-          if (progreso[c.codigo]) suma += c.creditos;
-        }
-      }
-      return suma;
-    }
-
-    // Renderizar todo
-    function renderizar() {
-      const contenedor = document.getElementById("contenedor-malla");
-      contenedor.innerHTML = "";
-
-      let anioPrev = null;
-
-      for (const per of clases) {
-        // Cuando cambia el año, poner título y la imagen del año
-        if (anioPrev !== per.anio) {
-          const divImg = document.createElement("div");
-          divImg.className = "anio-imagen";
-          const img = document.createElement("img");
-          img.src = imagenesPorAnio[per.anio];
-          img.alt = `Año ${per.anio}`;
-          divImg.appendChild(img);
-          contenedor.appendChild(divImg);
-
-          const tituloAnio = document.createElement("h2");
-          tituloAnio.textContent = `Año ${per.anio}`;
-          contenedor.appendChild(tituloAnio);
-
-          anioPrev = per.anio;
-        }
-
-        // Contenedor del periodo
-        const divPeriodo = document.createElement("div");
-        divPeriodo.className = "periodo";
-
-        const h3Periodo = document.createElement("h3");
-        h3Periodo.textContent = per.periodo;
-        divPeriodo.appendChild(h3Periodo);
-
-        // Clases del periodo
-        for (const clase of per.clases) {
-          const divClase = document.createElement("div");
-          divClase.className = "clase";
-
-          // Si está tachada
-          if (progreso[clase.codigo]) divClase.classList.add("completada");
-
-          // Si no está desbloqueada y no está completada, bloquear
-          if (!estaDesbloqueada(clase) && !progreso[clase.codigo]) {
-            divClase.classList.add("bloqueada");
-          }
-
-          divClase.textContent = `${clase.codigo} - ${clase.nombre} (${clase.creditos} créditos)`;
-
-          // Evento click: tachar/destachar si está desbloqueada o ya completada
-          divClase.onclick = () => {
-            if (progreso[clase.codigo]) {
-              // Destachar sin restricciones
-              progreso[clase.codigo] = false;
-              delete progreso[clase.codigo];
-              guardarProgreso(progreso);
-              renderizar();
-            } else {
-              // Solo tachar si desbloqueada
-              if (estaDesbloqueada(clase)) {
-                progreso[clase.codigo] = true;
-                guardarProgreso(progreso);
-                renderizar();
-              } else {
-                alert("No cumple con los requisitos para desbloquear esta clase.");
-              }
-            }
-          };
-
-          divPeriodo.appendChild(divClase);
-        }
-
-        contenedor.appendChild(divPeriodo);
-      }
-
-      // Actualizar contador de créditos
-      const uvTotal = document.getElementById("uv-total");
-      const totalCreditos = 347;
-      uvTotal.textContent = `Créditos completados: ${contarCreditos()} / ${totalCreditos}`;
-    }
-
-    // Reiniciar progreso
-    function reiniciar() {
-      if (confirm("¿Quieres reiniciar todo el progreso?")) {
-        progreso = {};
-        guardarProgreso(progreso);
-        renderizar();
+  function calcularCreditos() {
+    let total = 0;
+    for (const codigo in progreso) {
+      if (progreso[codigo]) {
+        const clase = encontrarClasePorCodigo(codigo);
+        if (clase) total += clase.creditos;
       }
     }
+    document.getElementById("uv-total").textContent = `Créditos completados: ${total} / ${creditosTotales}`;
+  }
 
-    // Inicializar
-    renderizar();
-  </script>
-</body>
-</html>
+  function encontrarClasePorCodigo(codigo) {
+    for (const periodo of clases) {
+      for (const clase of periodo.clases) {
+        if (clase.codigo === codigo) return clase;
+      }
+    }
+    return null;
+  }
+
+  function requisitosCumplidos(requisitos) {
+    if (!requisitos || requisitos.length === 0) return true;
+    if (requisitos.includes("ALL")) {
+      return clases.every(periodo =>
+        periodo.clases.every(clase => progreso[clase.codigo])
+      );
+    }
+    return requisitos.every(req => progreso[req]);
+  }
+
+  function renderizar() {
+    contenedor.innerHTML = "";
+    let ultimoAnio = null;
+
+    clases.forEach(periodo => {
+      if (periodo.anio !== ultimoAnio) {
+        // Cambiar imagen de Hello Kitty por año
+        kittyImg.src = imagenesPorAnio[periodo.anio] || "";
+        ultimoAnio = periodo.anio;
+      }
+
+      const divPeriodo = document.createElement("div");
+      divPeriodo.className = "periodo";
+      const h2 = document.createElement("h2");
+      h2.textContent = periodo.periodo;
+      divPeriodo.appendChild(h2);
+
+      periodo.clases.forEach(clase => {
+        const divClase = document.createElement("div");
+        divClase.className = "clase";
+        divClase.id = clase.codigo;
+        divClase.textContent = `${clase.codigo} - ${clase.nombre} (C. ${clase.creditos})`;
+
+        const completada = progreso[clase.codigo];
+        const desbloqueada = requisitosCumplidos(clase.requisitos);
+
+        if (completada) divClase.classList.add("completada");
+        else if (!desbloqueada) divClase.classList.add("bloqueada");
+
+        divClase.onclick = () => {
+          if (!desbloqueada) return;
+          progreso[clase.codigo] = !progreso[clase.codigo];
+          guardarProgreso();
+          renderizar();
+        };
+
+        divPeriodo.appendChild(divClase);
+      });
+
+      contenedor.appendChild(divPeriodo);
+    });
+
+    calcularCreditos();
+  }
+
+  function reiniciar() {
+    if (confirm("¿Estás segura de que deseas reiniciar tu progreso?")) {
+      localStorage.removeItem("progreso-malla");
+      location.reload();
+    }
+  }
+
+  renderizar();
+</script>
