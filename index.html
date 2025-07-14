@@ -3,403 +3,68 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Malla Interactiva Medicina</title>
+<title>Malla Interactiva Medicina - Rosado</title>
 <style>
   body {
-    font-family: Arial, sans-serif;
-    background: #f5f0ff;
-    margin: 20px;
-    color: #330066;
-    text-align: center;
-  }
-  h1 {
-    margin-bottom: 10px;
-  }
-  #kitty-image {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    margin: 0 auto 10px auto;
-    display: block;
-  }
-  #year-selector {
-    margin-bottom: 20px;
-    font-size: 1.1em;
-  }
-  #grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 12px;
-    max-width: 1000px;
-    margin: 0 auto 20px auto;
-  }
-  .class-box {
-    background-color: #a080c5;
-    color: white;
-    border-radius: 10px;
-    padding: 10px;
-    user-select: none;
-    cursor: pointer;
-    height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-    transition: background-color 0.3s;
-    font-size: 0.85em;
-  }
-  .class-box.locked {
-    background-color: #d3c9e8;
-    color: #555;
-    cursor: not-allowed;
-    text-decoration: none;
-  }
-  .class-box.toggled {
-    text-decoration: line-through;
-    opacity: 0.6;
-  }
-  .class-code {
-    font-weight: bold;
-    font-size: 1.1em;
-  }
-  .class-uv {
-    font-weight: 600;
-    font-size: 1em;
-  }
-  #uv-counter {
-    font-weight: bold;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-  }
-  #reset-btn {
-    padding: 8px 15px;
-    background-color: #330066;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1em;
-  }
-  #reset-btn:hover {
-    background-color: #552288;
-  }
-</style>
-</head>
-<body>
-  <img id="kitty-image" src="" alt="Hello Kitty Médica" />
-  <h1>Malla Interactiva Medicina</h1>
-  <div id="year-selector">
-    Año: 
-    <select id="year-select">
-      <option value="1">Primer Año</option>
-      <option value="2">Segundo Año</option>
-      <option value="3">Tercer Año</option>
-      <option value="4">Cuarto Año</option>
-      <option value="5">Quinto Año</option>
-      <option value="6">Sexto Año</option>
-      <option value="7">Séptimo Año</option>
-    </select>
-  </div>
-  <div id="uv-counter">UV acumuladas: 0</div>
-  <div id="grid-container"></div>
-  <button id="reset-btn">Reiniciar progreso</button>
-
-<script>
-// Datos de clases por año y periodo
-const classesData = {
-  1: [ // Primer Año
-    { code: "MAT101", name: "Introducción al álgebra", uv: 4, requisitos: [] },
-    { code: "MDE109", name: "Desarrollo humano y social", uv: 4, requisitos: [] },
-    { code: "MDE110", name: "Procesos celulares y moleculares 1", uv: 3, requisitos: [] },
-    { code: "MDE111", name: "Estructura y función 1", uv: 4, requisitos: [] },
-
-    { code: "MAT102", name: "Algebra", uv: 4, requisitos: ["MAT101"] },
-    { code: "MDE112", name: "Estilo de vida, salud y medio ambiente", uv: 4, requisitos: [] },
-    { code: "MDE113", name: "Procesos celulares y moleculares 2", uv: 3, requisitos: ["MDE110"] },
-    { code: "MDE114", name: "Estructura y función 2", uv: 4, requisitos: ["MDE111"] },
-
-    { code: "MDE115", name: "Bases de la terapéutica medicamentosa", uv: 4, requisitos: ["MDE113"] },
-    { code: "MDE116", name: "Procesos celulares y moleculares 3", uv: 3, requisitos: ["MDE113"] },
-    { code: "MDE117", name: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1", uv: 4, requisitos: ["MDE114"] },
-    { code: "MDE203", name: "Prácticas médicas 1", uv: 4, requisitos: ["MDE113", "MDE114"] },
-
-    { code: "ESP103", name: "Comunicación oral y escrita", uv: 4, requisitos: [] },
-    { code: "MDE118", name: "Mecanismos de agresión y defensa 1", uv: 4, requisitos: ["MDE116"] },
-    { code: "MDE119", name: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2", uv: 4, requisitos: ["MDE117"] },
-    { code: "MDE216", name: "Prácticas médicas 2", uv: 4, requisitos: ["MDE203"] }
-  ],
-  2: [ // Segundo Año
-    { code: "ING105", name: "Inglés 1 / Electiva idioma extranjero 1", uv: 3, requisitos: [] },
-    { code: "MDE217", name: "Mecanismos de agresión y defensa 2", uv: 4, requisitos: ["MDE118"] },
-    { code: "MDE218", name: "SO 2 - Digestión, absorción, reproducción y control endocrino 1", uv: 4, requisitos: [] },
-    { code: "MDE219", name: "Prácticas médicas 3", uv: 4, requisitos: ["MDE216"] },
-
-    { code: "ING106", name: "Inglés 2 / Electiva idioma extranjero 2", uv: 3, requisitos: ["ING105"] },
-    { code: "MDE220", name: "Mecanismos de agresión y defensa 3", uv: 4, requisitos: ["MDE217"] },
-    { code: "MDE221", name: "SO 2 - Digestión, absorción, reproducción y control endocrino 2", uv: 4, requisitos: ["MDE218"] },
-    { code: "MDE222", name: "Prácticas médicas 4", uv: 4, requisitos: ["MDE219"] },
-
-    { code: "ING107", name: "Inglés 3 / Electiva idioma extranjero 3", uv: 3, requisitos: ["ING106"] },
-    { code: "MDE223", name: "Mecanismos de agresión y defensa 4", uv: 4, requisitos: ["MDE220"] },
-    { code: "MDE224", name: "SO 3 - Soporte, locomoción y control neural 1", uv: 4, requisitos: [] },
-    { code: "MDE225", name: "Prácticas médicas 5", uv: 4, requisitos: ["MDE222"] },
-
-    { code: "ING108", name: "Inglés 4 / Electiva idioma extranjero 4", uv: 3, requisitos: ["ING107"] },
-    { code: "MDE226", name: "Neurociencias y comportamiento", uv: 4, requisitos: [] },
-    { code: "MDE227", name: "SO 3 - Soporte, locomoción y control neural 2", uv: 4, requisitos: ["MDE224"] },
-    { code: "MDE228", name: "Prácticas médicas 6", uv: 4, requisitos: ["MDE225"] }
-  ],
-  3: [ // Tercer Año
-    { code: "ING109", name: "Inglés 5 / Electiva idioma extranjero 1", uv: 3, requisitos: ["ING108"] },
-    { code: "MDE315", name: "Salud infantil y del adolescente", uv: 5, requisitos: [] },
-    { code: "MDE316", name: "Salud de la mujer", uv: 5, requisitos: [] },
-    { code: "MDE317", name: "Clínica integrada 1", uv: 3, requisitos: [] },
-
-    { code: "ING110", name: "Inglés 6 / Electiva idioma extranjero 2", uv: 3, requisitos: ["ING109"] },
-    { code: "MDE318", name: "Sistemas de salud", uv: 4, requisitos: [] },
-    { code: "MDE319", name: "Salud del adulto", uv: 5, requisitos: [] },
-    { code: "MDE320", name: "Clínica integrada 2", uv: 3, requisitos: ["MDE317"] },
-
-    { code: "ING111", name: "Inglés 7 / Electiva idioma extranjero 3", uv: 3, requisitos: ["ING110"] },
-    { code: "MDE321", name: "Prevención y promoción de la salud 1", uv: 4, requisitos: [] },
-    { code: "MDE322", name: "Salud del adulto mayor", uv: 5, requisitos: [] },
-    { code: "MDE323", name: "Clínica integrada 3", uv: 3, requisitos: ["MDE320"] },
-
-    { code: "ING112", name: "Inglés 8 / Electiva idioma extranjero 4", uv: 3, requisitos: ["ING111"] },
-    { code: "MDE324", name: "Prevención y promoción de la salud 2", uv: 4, requisitos: ["MDE321"] },
-    { code: "MDE325", name: "Salud mental", uv: 5, requisitos: [] },
-    { code: "MDE326", name: "Clínica integrada 4", uv: 3, requisitos: ["MDE323"] }
-  ],
-  4: [ // Cuarto Año
-    { code: "LCC104", name: "Ofimática avanzada", uv: 2, requisitos: [] },
-    { code: "MDE407", name: "Medicina interna 1", uv: 5, requisitos: [] },
-    { code: "MDE408", name: "Pediatría 1", uv: 5, requisitos: [] },
-    { code: "BMD429", name: "Tecnologías biomédicas 1", uv: 3, requisitos: [] },
-
-    { code: "SOC101", name: "Sociología", uv: 3, requisitos: [] },
-    { code: "MDE409", name: "Cirugía 1", uv: 5, requisitos: [] },
-    { code: "MDE410", name: "Ginecología y obstetricia 1", uv: 5, requisitos: [] },
-
-    { code: "FIL101", name: "Filosofía", uv: 3, requisitos: [] },
-    { code: "MDE411", name: "Urgencias y emergencias 1", uv: 5, requisitos: [] },
-    { code: "MDE412", name: "Seminarios integradores 1", uv: 3, requisitos: [] },
-
-    { code: "MDE208", name: "Metodología de investigación", uv: 3, requisitos: [] },
-    { code: "MDE413", name: "Temas avanzados en práctica médica 1", uv: 4, requisitos: [] },
-    { code: "MDE414", name: "Medicina alternativa y complementaria", uv: 4, requisitos: [] }
-  ],
-  5: [ // Quinto Año
-    { code: "HIS101", name: "Historia de Honduras", uv: 3, requisitos: [] },
-    { code: "MDE508", name: "Medicina interna 2", uv: 5, requisitos: ["MDE407"] },
-    { code: "MDE509", name: "Pediatría 2", uv: 5, requisitos: ["MDE408"] },
-    { code: "BMD430", name: "Tecnologías biomédicas 2", uv: 3, requisitos: ["BMD429"] },
-
-    { code: "ARTDEP", name: "Electiva arte / deporte", uv: 3, requisitos: [] },
-    { code: "MDE510", name: "Cirugía 2", uv: 5, requisitos: ["MDE409"] },
-    { code: "MDE511", name: "Ginecología y obstetricia 2", uv: 5, requisitos: ["MDE410"] },
-
-    { code: "MDE212", name: "Generación de empresas en salud", uv: 3, requisitos: ["MDE208"] },
-    { code: "MDE512", name: "Urgencias y emergencias 2", uv: 5, requisitos: ["MDE411"] },
-    { code: "MDE513", name: "Seminarios integradores 2", uv: 3, requisitos: ["MDE412"] },
-
-    { code: "MDE304", name: "Gestión de servicios en salud", uv: 3, requisitos: ["MDE212"] },
-    { code: "MDE514", name: "Temas avanzados en práctica médica 2", uv: 4, requisitos: ["MDE413"] },
-    { code: "MDE515", name: "Cuidados paliativos y de hospicio", uv: 4, requisitos: [] }
-  ],
-  6: [ // Sexto Año
-    { code: "MDE605", name: "Internado ginecoobstetrícia", uv: 16, requisitos: [] },
-    { code: "MDE606", name: "Internado pediatría", uv: 16, requisitos: [] },
-    { code: "MDE607", name: "Internado cirugía", uv: 16, requisitos: [] },
-    { code: "MDE608", name: "Internado medicina interna", uv: 16, requisitos: [] }
-  ],
-  7: [ // Séptimo Año
-    { code: "MDE702", name: "Servicio social obligatorio 1 año", uv: 0, requisitos: [] },
-    { code: "MDE703", name: "Servicio social obligatorio 6 meses", uv: 0, requisitos: [] }
-  ]
-};
-
-// Imágenes de Hello Kitty por año
-const kittyImages = {
-  1: "https://i.imgur.com/7z7RcGd.png", // ejemplo imagen Hello Kitty médica año 1
-  2: "https://i.imgur.com/BjFSPpb.png",
-  3: "https://i.imgur.com/q2u7EBN.png",
-  4: "https://i.imgur.com/NynY7XK.png",
-  5: "https://i.imgur.com/KjoXjVh.png",
-  6: "https://i.imgur.com/9QcGfXv.png",
-  7: "https://i.imgur.com/dpkvP3k.png"
-};
-
-const yearSelect = document.getElementById("year-select");
-const gridContainer = document.getElementById("grid-container");
-const kittyImage = document.getElementById("kitty-image");
-const uvCounter = document.getElementById("uv-counter");
-const resetBtn = document.getElementById("reset-btn");
-
-let toggledClasses = {}; // código: true (tachado)
-
-// Cargar estado guardado de localStorage
-function loadProgress() {
-  const saved = localStorage.getItem("medProgress");
-  toggledClasses = saved ? JSON.parse(saved) : {};
-}
-
-// Guardar estado en localStorage
-function saveProgress() {
-  localStorage.setItem("medProgress", JSON.stringify(toggledClasses));
-}
-
-// Comprobar si todos los requisitos están tachados
-function requisitosCumplidos(requisitos) {
-  return requisitos.every(req => toggledClasses[req] === true);
-}
-
-// Actualizar contador UV
-function actualizarUV() {
-  let total = 0;
-  for (const code in toggledClasses) {
-    if (toggledClasses[code]) {
-      for (const year in classesData) {
-        const cls = classesData[year].find(c => c.code === code);
-        if (cls) total += cls.uv;
-      }
-    }
-  }
-  uvCounter.textContent = `UV acumuladas: ${total}`;
-}
-
-// Crear la cuadrícula de clases para el año seleccionado
-function renderYear(year) {
-  gridContainer.innerHTML = "";
-  kittyImage.src = kittyImages[year] || kittyImages[1];
-  const clases = classesData[year];
-  if (!clases) return;
-
-  clases.forEach(cls => {
-    const box = document.createElement("div");
-    box.className = "class-box";
-    box.dataset.code = cls.code;
-
-    // Si requisitos NO cumplidos y no es clase sin requisitos, bloqueado
-    if (!requisitosCumplidos(cls.requisitos) && cls.requisitos.length > 0) {
-      box.classList.add("locked");
-    }
-
-    if (toggledClasses[cls.code]) {
-      box.classList.add("toggled");
-    }
-
-    box.innerHTML = `
-      <div class="class-code">${cls.code}</div>
-      <div class="class-name">${cls.name}</div>
-      <div class="class-uv">UV: ${cls.uv}</div>
-    `;
-
-    box.addEventListener("click", () => {
-      if (box.classList.contains("locked")) return;
-
-      if (toggledClasses[cls.code]) {
-        // Destachar
-        delete toggledClasses[cls.code];
-        box.classList.remove("toggled");
-      } else {
-        // Tachado
-        toggledClasses[cls.code] = true;
-        box.classList.add("toggled");
-      }
-
-      // Actualizar todas las clases para desbloquear o bloquear según requisitos
-      renderYear(yearSelect.value);
-      actualizarUV();
-      saveProgress();
-    });
-
-    gridContainer.appendChild(box);
-  });
-
-  actualizarUV();
-}
-
-// Reiniciar progreso
-resetBtn.addEventListener("click", () => {
-  if (confirm("¿Seguro que quieres reiniciar todo el progreso?")) {
-    toggledClasses = {};
-    saveProgress();
-    renderYear(yearSelect.value);
-    actualizarUV();
-  }
-});
-
-// Evento cambio de año
-yearSelect.addEventListener("change", () => {
-  renderYear(yearSelect.value);
-});
-
-// Inicializar
-loadProgress();
-renderYear(yearSelect.value);
-actualizarUV();
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f7f0fc;
-    color: #3c0e64;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff0f6;
+    color: #b33951;
     margin: 20px;
     text-align: center;
   }
   #kitty-image {
     width: 120px;
     height: auto;
-    margin: 0 auto 10px auto;
+    margin: 0 auto 15px auto;
     display: block;
   }
   h1 {
-    color: #5b2ca3;
-    margin-bottom: 15px;
+    color: #d6336c;
+    margin-bottom: 20px;
   }
   #year-select {
     font-size: 16px;
-    padding: 6px 10px;
-    margin-bottom: 20px;
-    border-radius: 6px;
-    border: 2px solid #7d4ec7;
-    background: #ede4f8;
-    color: #3c0e64;
+    padding: 6px 12px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    border: 2px solid #e6678b;
+    background: #ffe3ec;
+    color: #b33951;
     cursor: pointer;
   }
   #grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 12px;
+    gap: 14px;
     max-width: 900px;
     margin: 0 auto 20px auto;
   }
   .class-box {
-    background: #a68ddd;
+    background: #f8c1d7;
     border-radius: 15px;
-    padding: 12px 10px;
+    padding: 12px 8px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(82, 31, 123, 0.3);
+    box-shadow: 0 5px 12px rgba(211, 51, 108, 0.3);
     user-select: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    aspect-ratio: 1 / 1; /* CUADRADOS */
+    aspect-ratio: 1 / 1; /* Cuadrado */
     transition: background-color 0.3s, color 0.3s;
   }
   .class-box:hover:not(.locked) {
-    background: #6b4ea4;
-    color: #eae1f9;
+    background: #d6336c;
+    color: #ffe3ec;
   }
   .class-box.toggled {
-    background: #3c0e64;
+    background: #b33951;
     color: #fff;
     text-decoration: line-through;
   }
   .class-box.locked {
-    background: #d3c1e5;
-    color: #8f7da0;
+    background: #f9d7e1;
+    color: #d68fa3;
     cursor: not-allowed;
     text-decoration: none;
   }
@@ -419,20 +84,229 @@ actualizarUV();
   #uv-counter {
     font-weight: 700;
     font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    color: #b33951;
   }
   #reset-btn {
-    background-color: #7d4ec7;
+    background-color: #d6336c;
     border: none;
     border-radius: 10px;
     color: white;
-    padding: 10px 20px;
+    padding: 10px 22px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 3px 6px rgba(82, 31, 123, 0.4);
+    box-shadow: 0 3px 6px rgba(211, 51, 108, 0.4);
     transition: background-color 0.3s;
   }
   #reset-btn:hover {
-    background-color: #5b2ca3;
+    background-color: #a52a55;
   }
 </style>
+</head>
+<body>
+
+<img id="kitty-image" src="https://i.imgur.com/Fu61gak.png" alt="Hello Kitty médica" />
+
+<h1>Malla Interactiva Medicina</h1>
+
+<select id="year-select" aria-label="Seleccionar año">
+  <option value="1">Primer Año</option>
+  <option value="2">Segundo Año</option>
+  <option value="3">Tercer Año</option>
+  <option value="4">Cuarto Año</option>
+  <option value="5">Quinto Año</option>
+  <option value="6">Sexto Año</option>
+  <option value="7">Séptimo Año</option>
+</select>
+
+<div id="uv-counter">UV Completadas: 0</div>
+
+<div id="grid-container"></div>
+
+<button id="reset-btn">Reiniciar progreso</button>
+
+<script>
+  const yearSelect = document.getElementById('year-select');
+  const gridContainer = document.getElementById('grid-container');
+  const uvCounter = document.getElementById('uv-counter');
+  const resetBtn = document.getElementById('reset-btn');
+
+  // Clases y requisitos según tu lista:
+  const classesByYear = {
+    1: [
+      { code: 'MAT101', name: 'Introducción al álgebra', uv: 4, requisitos: [] },
+      { code: 'MDE109', name: 'Desarrollo humano y social', uv: 4, requisitos: [] },
+      { code: 'MDE110', name: 'Procesos celulares y moleculares 1', uv: 3, requisitos: [] },
+      { code: 'MDE111', name: 'Estructura y función 1', uv: 4, requisitos: [] },
+      { code: 'MAT102', name: 'Algebra', uv: 4, requisitos: ['MAT101'] },
+      { code: 'MDE112', name: 'Estilo de vida, salud y medio ambiente', uv: 4, requisitos: [] },
+      { code: 'MDE113', name: 'Procesos celulares y moleculares 2', uv: 3, requisitos: ['MDE110'] },
+      { code: 'MDE114', name: 'Estructura y función 2', uv: 4, requisitos: ['MDE111'] },
+      { code: 'MDE115', name: 'Bases de la terapéutica medicamentosa', uv: 4, requisitos: ['MDE113'] },
+      { code: 'MDE116', name: 'Procesos celulares y moleculares 3', uv: 3, requisitos: ['MDE113'] },
+      { code: 'MDE117', name: 'SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1', uv: 4, requisitos: ['MDE114'] },
+      { code: 'MDE203', name: 'Prácticas médicas 1', uv: 4, requisitos: ['MDE113', 'MDE114'] },
+      { code: 'ESP103', name: 'Comunicación oral y escrita', uv: 4, requisitos: [] },
+      { code: 'MDE118', name: 'Mecanismos de agresión y defensa 1', uv: 4, requisitos: ['MDE116'] },
+      { code: 'MDE119', name: 'SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2', uv: 4, requisitos: ['MDE117'] },
+      { code: 'MDE216', name: 'Prácticas médicas 2', uv: 4, requisitos: ['MDE203'] },
+    ],
+    2: [
+      { code: 'ING105', name: 'Inglés 1 / Electiva de idioma extranjero 1', uv: 3, requisitos: [] },
+      { code: 'MDE217', name: 'Mecanismos de agresión y defensa 2', uv: 4, requisitos: ['MDE118'] },
+      { code: 'MDE218', name: 'SO 2 - Digestión y absorción, reproducción y control endocrino 1', uv: 4, requisitos: [] },
+      { code: 'MDE219', name: 'Prácticas médicas 3', uv: 4, requisitos: ['MDE216'] },
+      { code: 'ING106', name: 'Inglés 2 / Electiva de idioma extranjero 2', uv: 3, requisitos: ['ING105'] },
+      { code: 'MDE220', name: 'Mecanismos de agresión y defensa 3', uv: 4, requisitos: ['MDE217'] },
+      { code: 'MDE221', name: 'SO 2 - Digestión y absorción, reproducción y control endocrino 2', uv: 4, requisitos: ['MDE218'] },
+      { code: 'MDE222', name: 'Prácticas médicas 4', uv: 4, requisitos: ['MDE219'] },
+      { code: 'ING107', name: 'Inglés 3 / Electiva de idioma extranjero 3', uv: 3, requisitos: ['ING106'] },
+      { code: 'MDE223', name: 'Mecanismos de agresión y defensa 4', uv: 4, requisitos: ['MDE220'] },
+      { code: 'MDE224', name: 'SO 3 - Soporte, locomoción y control neural 1', uv: 4, requisitos: [] },
+      { code: 'MDE225', name: 'Prácticas médicas 5', uv: 4, requisitos: ['MDE222'] },
+      { code: 'ING108', name: 'Inglés 4 / Electiva de idioma extranjero 4', uv: 3, requisitos: ['ING107'] },
+      { code: 'MDE226', name: 'Neurociencias y comportamiento', uv: 4, requisitos: [] },
+      { code: 'MDE227', name: 'SO 3 - Soporte, locomoción y control neural 2', uv: 4, requisitos: ['MDE224'] },
+      { code: 'MDE228', name: 'Prácticas médicas 6', uv: 4, requisitos: ['MDE225'] },
+    ],
+    3: [
+      { code: 'ING109', name: 'Inglés 5 / Electiva de idioma extranjero 1', uv: 3, requisitos: ['ING108'] },
+      { code: 'MDE315', name: 'Salud infantil y del adolescente', uv: 5, requisitos: [] },
+      { code: 'MDE316', name: 'Salud de la mujer', uv: 5, requisitos: [] },
+      { code: 'MDE317', name: 'Clínica integrada 1', uv: 3, requisitos: [] },
+      { code: 'ING110', name: 'Inglés 6 / Electiva de idioma extranjero 2', uv: 3, requisitos: ['ING109'] },
+      { code: 'MDE318', name: 'Sistemas de salud', uv: 4, requisitos: [] },
+      { code: 'MDE319', name: 'Salud del adulto', uv: 5, requisitos: [] },
+      { code: 'MDE320', name: 'Clínica integrada 2', uv: 3, requisitos: ['MDE317'] },
+      { code: 'ING111', name: 'Inglés 7 / Electiva de idioma extranjero 3', uv: 3, requisitos: ['ING110'] },
+      { code: 'MDE321', name: 'Prevención y promoción de la salud 1', uv: 4, requisitos: [] },
+      { code: 'MDE322', name: 'Salud del adulto mayor', uv: 5, requisitos: [] },
+      { code: 'MDE323', name: 'Clínica integrada 3', uv: 3, requisitos: ['MDE320'] },
+      { code: 'ING112', name: 'Inglés 8 / Electiva de idioma extranjero 4', uv: 3, requisitos: ['ING111'] },
+      { code: 'MDE324', name: 'Prevención y promoción de la salud 2', uv: 4, requisitos: ['MDE321'] },
+      { code: 'MDE325', name: 'Salud mental', uv: 5, requisitos: [] },
+      { code: 'MDE326', name: 'Clínica integrada 4', uv: 3, requisitos: ['MDE323'] },
+    ],
+    4: [
+      { code: 'LCC104', name: 'Ofimática avanzada', uv: 2, requisitos: [] },
+      { code: 'MDE407', name: 'Medicina interna 1', uv: 5, requisitos: [] },
+      { code: 'MDE408', name: 'Pediatría 1', uv: 5, requisitos: [] },
+      { code: 'BMD429', name: 'Tecnologías biomédicas 1', uv: 3, requisitos: [] },
+      { code: 'SOC101', name: 'Sociología', uv: 3, requisitos: [] },
+      { code: 'MDE409', name: 'Cirugía 1', uv: 5, requisitos: [] },
+      { code: 'MDE410', name: 'Ginecología y obstetricia 1', uv: 5, requisitos: [] },
+      { code: 'FIL101', name: 'Filosofía', uv: 3, requisitos: [] },
+      { code: 'MDE411', name: 'Urgencias y emergencias 1', uv: 5, requisitos: [] },
+      { code: 'MDE412', name: 'Seminarios integradores 1', uv: 3, requisitos: [] },
+      { code: 'MDE208', name: 'Metodología de investigación', uv: 3, requisitos: [] },
+      { code: 'MDE413', name: 'Temas avanzados en práctica médica 1', uv: 4, requisitos: [] },
+      { code: 'MDE414', name: 'Medicina alternativa y complementaria', uv: 4, requisitos: [] },
+    ],
+    5: [
+      { code: 'HIS101', name: 'Historia de Honduras', uv: 3, requisitos: [] },
+      { code: 'MDE508', name: 'Medicina interna 2', uv: 5, requisitos: ['MDE407'] },
+      { code: 'MDE509', name: 'Pediatría 2', uv: 5, requisitos: ['MDE408'] },
+      { code: 'BMD430', name: 'Tecnologías biomédicas 2', uv: 3, requisitos: ['BMD429'] },
+      { code: 'ART_DEP', name: 'Electiva arte / deporte', uv: 3, requisitos: [] },
+      { code: 'MDE510', name: 'Cirugía 2', uv: 5, requisitos: ['MDE409'] },
+      { code: 'MDE511', name: 'Ginecología y obstetricia 2', uv: 5, requisitos: ['MDE410'] },
+      { code: 'MDE212', name: 'Generación de empresas en salud', uv: 3, requisitos: ['MDE208'] },
+      { code: 'MDE512', name: 'Urgencias y emergencias 2', uv: 5, requisitos: ['MDE411'] },
+      { code: 'MDE513', name: 'Seminarios integradores 2', uv: 3, requisitos: ['MDE412'] },
+      { code: 'MDE304', name: 'Gestión de servicios en salud', uv: 3, requisitos: ['MDE212'] },
+      { code: 'MDE514', name: 'Temas avanzados en práctica médica 2', uv: 4, requisitos: ['MDE413'] },
+      { code: 'MDE515', name: 'Cuidados paliativos y de hospicio', uv: 4, requisitos: [] },
+    ],
+    6: [
+      { code: 'MDE605', name: 'Internado ginecoobstetrícia', uv: 16, requisitos: ['*'] },
+      { code: 'MDE606', name: 'Internado pediatría', uv: 16, requisitos: ['*'] },
+      { code: 'MDE607', name: 'Internado cirugía', uv: 16, requisitos: ['*'] },
+      { code: 'MDE608', name: 'Internado medicina interna', uv: 16, requisitos: ['*'] },
+    ],
+    7: [
+      { code: 'MDE702', name: 'Servicio social obligatorio 1 año', uv: 0, requisitos: ['*'] },
+      { code: 'MDE703', name: 'Servicio social obligatorio 6 meses', uv: 0, requisitos: ['*'] },
+    ],
+  };
+
+  // Función para saber si cumple todos los requisitos:
+  function cumpleRequisitos(requisitos, progreso) {
+    // '*' indica que requiere TODO lo anterior completado
+    if (requisitos.includes('*')) {
+      // Checar que todas las clases de años anteriores estén completadas
+      for (let y = 1; y <= 6; y++) {
+        for (const clase of classesByYear[y]) {
+          if (!progreso[clase.code]) return false;
+        }
+      }
+      return true;
+    }
+    // Caso normal:
+    return requisitos.every(req => progreso[req]);
+  }
+
+  // Guardar y cargar progreso:
+  function guardarProgreso(data) {
+    localStorage.setItem('progresoMallaMedicina', JSON.stringify(data));
+  }
+
+  function cargarProgreso() {
+    return JSON.parse(localStorage.getItem('progresoMallaMedicina')) || {};
+  }
+
+  function mostrarClases(año) {
+    gridContainer.innerHTML = '';
+    const progreso = cargarProgreso();
+    const clases = classesByYear[año] || [];
+    let uvCompletadas = 0;
+
+    clases.forEach(clase => {
+      const box = document.createElement('div');
+      box.className = 'class-box';
+
+      const requisitosCumplidos = cumpleRequisitos(clase.requisitos, progreso);
+      if (!requisitosCumplidos) {
+        box.classList.add('locked');
+      }
+
+      if (progreso[clase.code]) {
+        box.classList.add('toggled');
+        uvCompletadas += clase.uv;
+      }
+
+      box.innerHTML = `
+        <div class="class-code">${clase.code}</div>
+        <div class="class-name">${clase.name}</div>
+        <div class="class-uv">UV: ${clase.uv}</div>
+      `;
+
+      box.addEventListener('click', () => {
+        if (box.classList.contains('locked')) return;
+        const toggled = box.classList.toggle('toggled');
+        progreso[clase.code] = toggled;
+        guardarProgreso(progreso);
+        mostrarClases(año);
+      });
+
+      gridContainer.appendChild(box);
+    });
+
+    uvCounter.textContent = `UV Completadas: ${uvCompletadas}`;
+  }
+
+  yearSelect.addEventListener('change', () => {
+    mostrarClases(yearSelect.value);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    if (confirm('¿Quieres reiniciar todo el progreso?')) {
+      localStorage.removeItem('progresoMallaMedicina');
+      mostrarClases(yearSelect.value);
+    }
+  });
+
+  mostrarClases(yearSelect.value);
+</script>
+
+</body>
+</html>
