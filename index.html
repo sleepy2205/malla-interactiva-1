@@ -130,8 +130,20 @@
   const gridContainer = document.getElementById('grid-container');
   const uvCounter = document.getElementById('uv-counter');
   const resetBtn = document.getElementById('reset-btn');
+  const kittyImage = document.getElementById('kitty-image');
 
-  // Clases y requisitos según tu lista:
+  // Imágenes Hello Kitty por año (puedes cambiar URLs por las que prefieras)
+  const kittyImagesByYear = {
+    1: 'https://i.imgur.com/Fu61gak.png', // Hello Kitty con estetoscopio 1er año
+    2: 'https://i.imgur.com/YxRJ96c.png', // Hello Kitty con bata rosa 2do año
+    3: 'https://i.imgur.com/7AmR0U2.png', // Hello Kitty médica 3er año
+    4: 'https://i.imgur.com/56qyzYp.png', // Hello Kitty con libros 4to año
+    5: 'https://i.imgur.com/hkDJmTk.png', // Hello Kitty con microscopio 5to año
+    6: 'https://i.imgur.com/cg7p4UO.png', // Hello Kitty con maletín médico 6to año
+    7: 'https://i.imgur.com/B9cyDYz.png', // Hello Kitty graduada 7mo año
+  };
+
+  // Clases y requisitos según tu lista (igual que antes):
   const classesByYear = {
     1: [
       { code: 'MAT101', name: 'Introducción al álgebra', uv: 4, requisitos: [] },
@@ -229,11 +241,8 @@
     ],
   };
 
-  // Función para saber si cumple todos los requisitos:
   function cumpleRequisitos(requisitos, progreso) {
-    // '*' indica que requiere TODO lo anterior completado
     if (requisitos.includes('*')) {
-      // Checar que todas las clases de años anteriores estén completadas
       for (let y = 1; y <= 6; y++) {
         for (const clase of classesByYear[y]) {
           if (!progreso[clase.code]) return false;
@@ -241,11 +250,9 @@
       }
       return true;
     }
-    // Caso normal:
     return requisitos.every(req => progreso[req]);
   }
 
-  // Guardar y cargar progreso:
   function guardarProgreso(data) {
     localStorage.setItem('progresoMallaMedicina', JSON.stringify(data));
   }
@@ -263,6 +270,7 @@
     clases.forEach(clase => {
       const box = document.createElement('div');
       box.className = 'class-box';
+      box.dataset.code = clase.code;
 
       const requisitosCumplidos = cumpleRequisitos(clase.requisitos, progreso);
       if (!requisitosCumplidos) {
@@ -282,6 +290,7 @@
 
       box.addEventListener('click', () => {
         if (box.classList.contains('locked')) return;
+
         const toggled = box.classList.toggle('toggled');
         progreso[clase.code] = toggled;
         guardarProgreso(progreso);
@@ -292,6 +301,9 @@
     });
 
     uvCounter.textContent = `UV Completadas: ${uvCompletadas}`;
+
+    // Cambiar imagen según el año
+    kittyImage.src = kittyImagesByYear[año] || kittyImagesByYear[1];
   }
 
   yearSelect.addEventListener('change', () => {
