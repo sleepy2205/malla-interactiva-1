@@ -133,34 +133,139 @@
   </div>
 <script>
 const datos = [
-  // Primer Año - Periodo 1
-  { codigo: "MAT101", nombre: "Introducción al Álgebra", uv: 4 },
-  { codigo: "MDE109", nombre: "Desarrollo humano y social", uv: 4 },
-  { codigo: "MDE110", nombre: "Biología", uv: 4 },
-  { codigo: "QUI105", nombre: "Química general", uv: 4 },
-  { codigo: "FIS101", nombre: "Física general", uv: 4 },
-  { codigo: "LEN101", nombre: "Lenguaje y comunicación", uv: 4 },
 
-  // Segundo Periodo
-  { codigo: "BIO102", nombre: "Anatomía humana", uv: 4, req: ["MDE110"] },
-  { codigo: "QUI106", nombre: "Química orgánica", uv: 4, req: ["QUI105"] },
-  { codigo: "PSI201", nombre: "Psicología general", uv: 4 },
-  { codigo: "FIL102", nombre: "Ética profesional", uv: 4 },
-  { codigo: "MAT102", nombre: "Estadística", uv: 4, req: ["MAT101"] },
-  { codigo: "CSO101", nombre: "Sociología", uv: 4 },
+  <div class="plan">
+  <h2>Plan de Estudio Medicina UNITEC</h2>
+  <p>Total de Créditos: <strong>347</strong></p>
 
-  // (Agrega tus periodos del 3 al 10 aquí como ya los tenías antes)
+  <h3>🩺 Primer Año</h3>
+  <h4>1. Periodo 1</h4>
+  <ul>
+    <li><strong>MAT101</strong> Introducción al álgebra — C. 4 (4-0)</li>
+    <li><strong>MDE109</strong> Desarrollo humano y social — C. 4 (4-0)</li>
+    <li><strong>MDE110</strong> Procesos celulares y moleculares 1 — C. 3 (3-0)</li>
+    <li><strong>MDE111</strong> Estructura y función 1 — C. 4 (3-1)</li>
+  </ul>
 
-  // Sexto Año
-  { codigo: "MDE605", nombre: "Internado ginecoobstetrícia", uv: 16, req: ["TODAS"] },
-  { codigo: "MDE606", nombre: "Internado pediatría", uv: 16, req: ["TODAS"] },
-  { codigo: "MDE607", nombre: "Internado cirugía", uv: 16, req: ["TODAS"] },
-  { codigo: "MDE608", nombre: "Internado medicina interna", uv: 16, req: ["TODAS"] },
+  <h4>2. Periodo 2</h4>
+  <ul>
+    <li><strong>MAT102</strong> Álgebra — C. 4 (4-0) <em>Requisito: MAT101</em></li>
+    <li><strong>MDE112</strong> Estilo de vida, salud y medio ambiente — C. 4 (4-0)</li>
+    <li><strong>MDE113</strong> Procesos celulares y moleculares 2 — C. 3 (3-0) <em>Requisito: MDE110</em></li>
+    <li><strong>MDE114</strong> Estructura y función 2 — C. 4 (3-1) <em>Requisito: MDE111</em></li>
+  </ul>
 
-  // Séptimo Año
-  { codigo: "MDE702", nombre: "Servicio social obligatorio 1 año", uv: 0, req: ["TODAS"] },
-  { codigo: "MDE703", nombre: "Servicio social obligatorio 6 meses", uv: 0, req: ["TODAS"] }
-];
+  <h4>3. Periodo 3</h4>
+  <ul>
+    <li><strong>MDE115</strong> Bases de la terapéutica medicamentosa — C. 4 (4-0) <em>Requisito: MDE113</em></li>
+    <li><strong>MDE116</strong> Procesos celulares y moleculares 3 — C. 3 (3-0) <em>Requisito: MDE113</em></li>
+    <li><strong>MDE117</strong> SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1 — C. 4 (3-1) <em>Requisito: MDE114</em></li>
+    <li><strong>MDE203</strong> Prácticas médicas 1 — C. 4 (3-1) <em>Requisitos: MDE113, MDE114</em></li>
+  </ul>
+
+  <h4>4. Periodo 4</h4>
+  <ul>
+    <li><strong>ESP103</strong> Comunicación oral y escrita — C. 4 (4-0)</li>
+    <li><strong>MDE118</strong> Mecanismos de agresión y defensa 1 — C. 4 (4-0) <em>Requisito: MDE116</em></li>
+    <li><strong>MDE119</strong> SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2 — C. 4 (3-1) <em>Requisito: MDE117</em></li>
+    <li><strong>MDE216</strong> Prácticas médicas 2 — C. 4 (3-1) <em>Requisito: MDE203</em></li>
+  </ul>
+
+  <h3>🩺 Segundo Año</h3>
+  <h4>5. Periodo 5</h4>
+  <ul>
+    <li><strong>ING105/EIEA1</strong> Inglés 1 / Idioma extranjero 1 — C. 3 (3-0)</li>
+    <li><strong>MDE217</strong> Mecanismos de agresión y defensa 2 — C. 4 (4-0) <em>Requisito: MDE118</em></li>
+    <li><strong>MDE218</strong> SO 2 - Digestión, reproducción y control endocrino 1 — C. 4 (3-1)</li>
+    <li><strong>MDE219</strong> Prácticas médicas 3 — C. 4 (3-1) <em>Requisito: MDE216</em></li>
+  </ul>
+
+  <h4>6. Periodo 6</h4>
+  <ul>
+    <li><strong>ING106/EIEA2</strong> Inglés 2 / Idioma extranjero 2 — C. 3 (3-0) <em>Requisito: ING105/EIEA1</em></li>
+    <li><strong>MDE220</strong> Mecanismos de agresión y defensa 3 — C. 4 (4-0) <em>Requisito: MDE217</em></li>
+    <li><strong>MDE221</strong> SO 2 - Digestión, reproducción y control endocrino 2 — C. 4 (3-1) <em>Requisito: MDE218</em></li>
+    <li><strong>MDE222</strong> Prácticas médicas 4 — C. 4 (3-1) <em>Requisito: MDE219</em></li>
+  </ul>
+  <h3>🩺 Tercer Año</h3>
+  <h4>7. Periodo 7</h4>
+  <ul>
+    <li><strong>ING107/EIEA3</strong> Inglés 3 / Idioma extranjero 3 — C. 3 (3-0) <em>Requisito: ING106/EIEA2</em></li>
+    <li><strong>MDE223</strong> Mecanismos de agresión y defensa 4 — C. 4 (4-0) <em>Requisito: MDE220</em></li>
+    <li><strong>MDE224</strong> SO 3 - Soporte, locomoción y control neural 1 — C. 4 (3-1)</li>
+    <li><strong>MDE225</strong> Prácticas médicas 5 — C. 4 (3-1) <em>Requisito: MDE222</em></li>
+  </ul>
+
+  <h4>8. Periodo 8</h4>
+  <ul>
+    <li><strong>ING108/EIEA4</strong> Inglés 4 / Idioma extranjero 4 — C. 3 (3-0) <em>Requisito: ING107/EIEA3</em></li>
+    <li><strong>MDE226</strong> Neurociencias y comportamiento — C. 4 (3-1)</li>
+    <li><strong>MDE227</strong> SO 3 - Soporte, locomoción y control neural 2 — C. 4 (3-1) <em>Requisito: MDE224</em></li>
+    <li><strong>MDE228</strong> Prácticas médicas 6 — C. 4 (3-1) <em>Requisito: MDE225</em></li>
+  </ul>
+
+  <h4>9. Periodo 9</h4>
+  <ul>
+    <li><strong>ING109/EIEB1</strong> Inglés 5 / Idioma extranjero 5 — C. 3 (3-0) <em>Requisito: ING108/EIEA4</em></li>
+    <li><strong>MDE315</strong> Salud infantil y del adolescente — C. 5 (4-1)</li>
+    <li><strong>MDE316</strong> Salud de la mujer — C. 5 (4-1)</li>
+    <li><strong>MDE317</strong> Clínica integrada 1 — C. 3 (2-1)</li>
+  </ul>
+
+  <h4>10. Periodo 10</h4>
+  <ul>
+    <li><strong>ING110/EIEB2</strong> Inglés 6 / Idioma extranjero 6 — C. 3 (3-0) <em>Requisito: ING109/EIEB1</em></li>
+    <li><strong>MDE318</strong> Sistemas de salud — C. 4 (4-0)</li>
+    <li><strong>MDE319</strong> Salud del adulto — C. 5 (4-1)</li>
+    <li><strong>MDE320</strong> Clínica integrada 2 — C. 3 (2-1) <em>Requisito: MDE317</em></li>
+  </ul>
+
+  <h4>11. Periodo 11</h4>
+  <ul>
+    <li><strong>ING111/EIEB3</strong> Inglés 7 / Idioma extranjero 7 — C. 3 (3-0) <em>Requisito: ING110/EIEB2</em></li>
+    <li><strong>MDE321</strong> Prevención y promoción de la salud 1 — C. 4 (4-0)</li>
+    <li><strong>MDE322</strong> Salud del adulto mayor — C. 5 (4-1)</li>
+    <li><strong>MDE323</strong> Clínica integrada 3 — C. 3 (2-1) <em>Requisito: MDE320</em></li>
+  </ul>
+
+  <h4>12. Periodo 12</h4>
+  <ul>
+    <li><strong>ING112/EIEB4</strong> Inglés 8 / Idioma extranjero 8 — C. 3 (3-0) <em>Requisito: ING111/EIEB3</em></li>
+    <li><strong>MDE324</strong> Prevención y promoción de la salud 2 — C. 4 (3-1) <em>Requisito: MDE321</em></li>
+    <li><strong>MDE325</strong> Salud mental — C. 5 (4-1)</li>
+    <li><strong>MDE326</strong> Clínica integrada 4 — C. 3 (2-1) <em>Requisito: MDE323</em></li>
+  </ul>
+
+  <h3>🩺 Cuarto Año</h3>
+  <h4>13. Periodo 13</h4>
+  <ul>
+    <li><strong>LCC104</strong> Ofimática avanzada — C. 2 (1-1)</li>
+    <li><strong>MDE407</strong> Medicina interna 1 — C. 5 (4-1)</li>
+    <li><strong>MDE408</strong> Pediatría 1 — C. 5 (4-1)</li>
+    <li><strong>BMD429</strong> Tecnologías biomédicas 1 — C. 3 (3-0)</li>
+  </ul>
+
+  <h4>14. Periodo 14</h4>
+  <ul>
+    <li><strong>SOC101</strong> Sociología — C. 3 (3-0)</li>
+    <li><strong>MDE409</strong> Cirugía 1 — C. 5 (4-1)</li>
+    <li><strong>MDE410</strong> Ginecología y obstetricia 1 — C. 5 (4-1)</li>
+  </ul>
+
+  <h4>15. Periodo 15</h4>
+  <ul>
+    <li><strong>FIL101</strong> Filosofía — C. 3 (3-0)</li>
+    <li><strong>MDE411</strong> Urgencias y emergencias 1 — C. 5 (4-1)</li>
+    <li><strong>MDE412</strong> Seminarios integradores 1 — C. 3 (2-1)</li>
+  </ul>
+
+  <h4>16. Periodo 16</h4>
+  <ul>
+    <li><strong>MDE208</strong> Metodología de investigación — C. 3 (2-1)</li>
+    <li><strong>MDE413</strong> Temas avanzados en práctica médica 1 — C. 4 (3-1)</li>
+    <li><strong>MDE414</strong> Medicina alternativa y complementaria — C. 4 (4-0)</li>
+  </ul>
+
 
 const contenedor = document.getElementById("contenedor");
 const completadas = JSON.parse(localStorage.getItem("completadas") || "[]");
