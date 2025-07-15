@@ -1,324 +1,450 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Malla Interactiva Medicina - Rosado</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #fff0f6;
-    color: #b33951;
-    margin: 20px;
-    text-align: center;
-  }
-  #kitty-image {
-    width: 120px;
-    height: auto;
-    margin: 0 auto 15px auto;
-    display: block;
-  }
-  h1 {
-    color: #d6336c;
-    margin-bottom: 20px;
-  }
-  #year-select {
-    font-size: 16px;
-    padding: 6px 12px;
-    margin-bottom: 25px;
-    border-radius: 10px;
-    border: 2px solid #e6678b;
-    background: #ffe3ec;
-    color: #b33951;
-    cursor: pointer;
-  }
-  #grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 14px;
-    max-width: 900px;
-    margin: 0 auto 20px auto;
-  }
-  .class-box {
-    background: #f8c1d7;
-    border-radius: 15px;
-    padding: 12px 8px;
-    cursor: pointer;
-    box-shadow: 0 5px 12px rgba(211, 51, 108, 0.3);
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    aspect-ratio: 1 / 1; /* Cuadrado */
-    transition: background-color 0.3s, color 0.3s;
-  }
-  .class-box:hover:not(.locked) {
-    background: #d6336c;
-    color: #ffe3ec;
-  }
-  .class-box.toggled {
-    background: #b33951;
-    color: #fff;
-    text-decoration: line-through;
-  }
-  .class-box.locked {
-    background: #f9d7e1;
-    color: #d68fa3;
-    cursor: not-allowed;
-    text-decoration: none;
-  }
-  .class-code {
-    font-weight: 700;
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-  .class-name {
-    font-size: 12px;
-    margin-bottom: 6px;
-  }
-  .class-uv {
-    font-size: 12px;
-    font-weight: 600;
-  }
-  #uv-counter {
-    font-weight: 700;
-    font-size: 18px;
-    margin-bottom: 20px;
-    color: #b33951;
-  }
-  #reset-btn {
-    background-color: #d6336c;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    padding: 10px 22px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 3px 6px rgba(211, 51, 108, 0.4);
-    transition: background-color 0.3s;
-  }
-  #reset-btn:hover {
-    background-color: #a52a55;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Malla Interactiva Medicina - Hello Kitty</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #ffe6f0;
+      font-family: 'Quicksand', sans-serif;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      background-image: url('https://www.transparenttextures.com/patterns/pw-maze-white.png');
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.2em;
+      font-weight: 600;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      background-image: linear-gradient(to right, #ff6f91, #ff99c8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #contador {
+      text-align: center;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #d81b60;
+    }
+
+    #reiniciar {
+      display: block;
+      margin: 10px auto 30px auto;
+      background-color: #f06292;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(240, 98, 146, 0.4);
+      transition: background-color 0.3s;
+    }
+    #reiniciar:hover {
+      background-color: #e91e63;
+    }
+
+    .clases {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .clase {
+      background-color: #ffbfdc;
+      color: #520026;
+      border-radius: 16px;
+      padding: 18px;
+      width: 230px;
+      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
+      transition: 0.3s;
+      cursor: pointer;
+      opacity: 0.5;
+      pointer-events: none;
+      position: relative;
+      user-select: none;
+    }
+
+    .clase.activa {
+      opacity: 1;
+      pointer-events: auto;
+      transform: scale(1.03);
+    }
+
+    .clase:hover {
+      box-shadow: 0 6px 14px rgba(255, 105, 180, 0.7);
+    }
+
+    .clase.completada {
+      background-color: #ffd3e3;
+      color: #880e4f;
+      text-decoration: line-through;
+    }
+
+    h2 {
+      color: #d81b60;
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    /* Hello Kitty icon arriba */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 70px;
+      height: 70px;
+      background-image: url('https://upload.wikimedia.org/wikipedia/en/0/0b/Hello_Kitty.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0.9;
+      z-index: 999;
+    }
+
+    /* Icono de medicina en cada clase */
+    .clase::after {
+      content: "🩺";
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      font-size: 1.2em;
+    }
+
+    #personaje-container {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #personaje-img {
+      width: 120px;
+      max-height: 120px;
+      object-fit: contain;
+      margin: 0 auto;
+      transition: 0.5s ease;
+    }
+  </style>
 </head>
 <body>
+  <div id="personaje-container">
+    <img
+      id="personaje-img"
+      src="https://i.imgur.com/LdDbk5W.png"
+      alt="Hello Kitty médica"
+    />
+  </div>
+  <h1>🎀 Plan de Estudio Medicina UNITEC 🎀</h1>
+  <div id="contador">Créditos Completados: 0 / 347</div>
+  <button id="reiniciar">Reiniciar progreso</button>
+  <div id="contenedor">
+    <div id="grupo-1"><h2>📘 Primer Año - Primer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-2"><h2>📘 Primer Año - Segundo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-3"><h2>📘 Primer Año - Tercer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-4"><h2>📘 Primer Año - Cuarto Periodo</h2><div class="clases"></div></div>
 
-<img id="kitty-image" src="https://i.imgur.com/Fu61gak.png" alt="Hello Kitty médica" />
+    <div id="grupo-5"><h2>📘 Segundo Año - Quinto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-6"><h2>📘 Segundo Año - Sexto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-7"><h2>📘 Segundo Año - Séptimo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-8"><h2>📘 Segundo Año - Octavo Periodo</h2><div class="clases"></div></div>
 
-<h1>Malla Interactiva Medicina</h1>
+    <div id="grupo-9"><h2>📘 Tercer Año - Noveno Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-10"><h2>📘 Tercer Año - Décimo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-11"><h2>📘 Tercer Año - Undécimo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-12"><h2>📘 Tercer Año - Duodécimo Periodo</h2><div class="clases"></div></div>
 
-<select id="year-select" aria-label="Seleccionar año">
-  <option value="1">Primer Año</option>
-  <option value="2">Segundo Año</option>
-  <option value="3">Tercer Año</option>
-  <option value="4">Cuarto Año</option>
-  <option value="5">Quinto Año</option>
-  <option value="6">Sexto Año</option>
-  <option value="7">Séptimo Año</option>
-</select>
+    <div id="grupo-13"><h2>📘 Cuarto Año - Decimotercer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-14"><h2>📘 Cuarto Año - Decimocuarto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-15"><h2>📘 Cuarto Año - Decimoquinto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-16"><h2>📘 Cuarto Año - Decimosexto Periodo</h2><div class="clases"></div></div>
 
-<div id="uv-counter">UV Completadas: 0</div>
+    <div id="grupo-17"><h2>📘 Quinto Año - Decimoséptimo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-18"><h2>📘 Quinto Año - Decimoctavo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-19"><h2>📘 Quinto Año - Decimonoveno Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-20"><h2>📘 Quinto Año - Vigésimo Periodo</h2><div class="clases"></div></div>
 
-<div id="grid-container"></div>
+    <div id="grupo-21"><h2>📘 Sexto Año - Vigésimo Primer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-22"><h2>📘 Sexto Año - Vigésimo Segundo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-23"><h2>📘 Sexto Año - Vigésimo Tercer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-24"><h2>📘 Sexto Año - Vigésimo Cuarto Periodo</h2><div class="clases"></div></div>
 
-<button id="reset-btn">Reiniciar progreso</button>
+    <div id="grupo-25"><h2>📘 Séptimo Año - Periodos 25 a 27</h2><div class="clases"></div></div>
+  </div>
 
 <script>
-  const yearSelect = document.getElementById('year-select');
-  const gridContainer = document.getElementById('grid-container');
-  const uvCounter = document.getElementById('uv-counter');
-  const resetBtn = document.getElementById('reset-btn');
-  const kittyImage = document.getElementById('kitty-image');
+  // Datos clases adaptados con # créditos y requisitos
+  const datos = [
+    // Primer año - Periodo 1
+    { codigo: "MAT101", nombre: "Introducción al álgebra", creditos: 4 },
+    { codigo: "MDE109", nombre: "Desarrollo humano y social", creditos: 4 },
+    { codigo: "MDE110", nombre: "Procesos celulares y moleculares 1", creditos: 3 },
+    { codigo: "MDE111", nombre: "Estructura y función 1", creditos: 4 },
 
-  // Imágenes Hello Kitty por año (puedes cambiar URLs por las que prefieras)
-  const kittyImagesByYear = {
-    1: 'https://i.imgur.com/Fu61gak.png', // Hello Kitty con estetoscopio 1er año
-    2: 'https://i.imgur.com/YxRJ96c.png', // Hello Kitty con bata rosa 2do año
-    3: 'https://i.imgur.com/7AmR0U2.png', // Hello Kitty médica 3er año
-    4: 'https://i.imgur.com/56qyzYp.png', // Hello Kitty con libros 4to año
-    5: 'https://i.imgur.com/hkDJmTk.png', // Hello Kitty con microscopio 5to año
-    6: 'https://i.imgur.com/cg7p4UO.png', // Hello Kitty con maletín médico 6to año
-    7: 'https://i.imgur.com/B9cyDYz.png', // Hello Kitty graduada 7mo año
-  };
+    // Primer año - Periodo 2
+    { codigo: "MAT102", nombre: "Algebra", creditos: 4, req: ["MAT101"] },
+    { codigo: "MDE112", nombre: "Estilo de vida, salud y medio ambiente", creditos: 4 },
+    { codigo: "MDE113", nombre: "Procesos celulares y moleculares 2", creditos: 3, req: ["MDE110"] },
+    { codigo: "MDE114", nombre: "Estructura y función 2", creditos: 4, req: ["MDE111"] },
 
-  // Clases y requisitos según tu lista (igual que antes):
-  const classesByYear = {
-    1: [
-      { code: 'MAT101', name: 'Introducción al álgebra', uv: 4, requisitos: [] },
-      { code: 'MDE109', name: 'Desarrollo humano y social', uv: 4, requisitos: [] },
-      { code: 'MDE110', name: 'Procesos celulares y moleculares 1', uv: 3, requisitos: [] },
-      { code: 'MDE111', name: 'Estructura y función 1', uv: 4, requisitos: [] },
-      { code: 'MAT102', name: 'Algebra', uv: 4, requisitos: ['MAT101'] },
-      { code: 'MDE112', name: 'Estilo de vida, salud y medio ambiente', uv: 4, requisitos: [] },
-      { code: 'MDE113', name: 'Procesos celulares y moleculares 2', uv: 3, requisitos: ['MDE110'] },
-      { code: 'MDE114', name: 'Estructura y función 2', uv: 4, requisitos: ['MDE111'] },
-      { code: 'MDE115', name: 'Bases de la terapéutica medicamentosa', uv: 4, requisitos: ['MDE113'] },
-      { code: 'MDE116', name: 'Procesos celulares y moleculares 3', uv: 3, requisitos: ['MDE113'] },
-      { code: 'MDE117', name: 'SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1', uv: 4, requisitos: ['MDE114'] },
-      { code: 'MDE203', name: 'Prácticas médicas 1', uv: 4, requisitos: ['MDE113', 'MDE114'] },
-      { code: 'ESP103', name: 'Comunicación oral y escrita', uv: 4, requisitos: [] },
-      { code: 'MDE118', name: 'Mecanismos de agresión y defensa 1', uv: 4, requisitos: ['MDE116'] },
-      { code: 'MDE119', name: 'SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2', uv: 4, requisitos: ['MDE117'] },
-      { code: 'MDE216', name: 'Prácticas médicas 2', uv: 4, requisitos: ['MDE203'] },
-    ],
-    2: [
-      { code: 'ING105', name: 'Inglés 1 / Electiva de idioma extranjero 1', uv: 3, requisitos: [] },
-      { code: 'MDE217', name: 'Mecanismos de agresión y defensa 2', uv: 4, requisitos: ['MDE118'] },
-      { code: 'MDE218', name: 'SO 2 - Digestión y absorción, reproducción y control endocrino 1', uv: 4, requisitos: [] },
-      { code: 'MDE219', name: 'Prácticas médicas 3', uv: 4, requisitos: ['MDE216'] },
-      { code: 'ING106', name: 'Inglés 2 / Electiva de idioma extranjero 2', uv: 3, requisitos: ['ING105'] },
-      { code: 'MDE220', name: 'Mecanismos de agresión y defensa 3', uv: 4, requisitos: ['MDE217'] },
-      { code: 'MDE221', name: 'SO 2 - Digestión y absorción, reproducción y control endocrino 2', uv: 4, requisitos: ['MDE218'] },
-      { code: 'MDE222', name: 'Prácticas médicas 4', uv: 4, requisitos: ['MDE219'] },
-      { code: 'ING107', name: 'Inglés 3 / Electiva de idioma extranjero 3', uv: 3, requisitos: ['ING106'] },
-      { code: 'MDE223', name: 'Mecanismos de agresión y defensa 4', uv: 4, requisitos: ['MDE220'] },
-      { code: 'MDE224', name: 'SO 3 - Soporte, locomoción y control neural 1', uv: 4, requisitos: [] },
-      { code: 'MDE225', name: 'Prácticas médicas 5', uv: 4, requisitos: ['MDE222'] },
-      { code: 'ING108', name: 'Inglés 4 / Electiva de idioma extranjero 4', uv: 3, requisitos: ['ING107'] },
-      { code: 'MDE226', name: 'Neurociencias y comportamiento', uv: 4, requisitos: [] },
-      { code: 'MDE227', name: 'SO 3 - Soporte, locomoción y control neural 2', uv: 4, requisitos: ['MDE224'] },
-      { code: 'MDE228', name: 'Prácticas médicas 6', uv: 4, requisitos: ['MDE225'] },
-    ],
-    3: [
-      { code: 'ING109', name: 'Inglés 5 / Electiva de idioma extranjero 1', uv: 3, requisitos: ['ING108'] },
-      { code: 'MDE315', name: 'Salud infantil y del adolescente', uv: 5, requisitos: [] },
-      { code: 'MDE316', name: 'Salud de la mujer', uv: 5, requisitos: [] },
-      { code: 'MDE317', name: 'Clínica integrada 1', uv: 3, requisitos: [] },
-      { code: 'ING110', name: 'Inglés 6 / Electiva de idioma extranjero 2', uv: 3, requisitos: ['ING109'] },
-      { code: 'MDE318', name: 'Sistemas de salud', uv: 4, requisitos: [] },
-      { code: 'MDE319', name: 'Salud del adulto', uv: 5, requisitos: [] },
-      { code: 'MDE320', name: 'Clínica integrada 2', uv: 3, requisitos: ['MDE317'] },
-      { code: 'ING111', name: 'Inglés 7 / Electiva de idioma extranjero 3', uv: 3, requisitos: ['ING110'] },
-      { code: 'MDE321', name: 'Prevención y promoción de la salud 1', uv: 4, requisitos: [] },
-      { code: 'MDE322', name: 'Salud del adulto mayor', uv: 5, requisitos: [] },
-      { code: 'MDE323', name: 'Clínica integrada 3', uv: 3, requisitos: ['MDE320'] },
-      { code: 'ING112', name: 'Inglés 8 / Electiva de idioma extranjero 4', uv: 3, requisitos: ['ING111'] },
-      { code: 'MDE324', name: 'Prevención y promoción de la salud 2', uv: 4, requisitos: ['MDE321'] },
-      { code: 'MDE325', name: 'Salud mental', uv: 5, requisitos: [] },
-      { code: 'MDE326', name: 'Clínica integrada 4', uv: 3, requisitos: ['MDE323'] },
-    ],
-    4: [
-      { code: 'LCC104', name: 'Ofimática avanzada', uv: 2, requisitos: [] },
-      { code: 'MDE407', name: 'Medicina interna 1', uv: 5, requisitos: [] },
-      { code: 'MDE408', name: 'Pediatría 1', uv: 5, requisitos: [] },
-      { code: 'BMD429', name: 'Tecnologías biomédicas 1', uv: 3, requisitos: [] },
-      { code: 'SOC101', name: 'Sociología', uv: 3, requisitos: [] },
-      { code: 'MDE409', name: 'Cirugía 1', uv: 5, requisitos: [] },
-      { code: 'MDE410', name: 'Ginecología y obstetricia 1', uv: 5, requisitos: [] },
-      { code: 'FIL101', name: 'Filosofía', uv: 3, requisitos: [] },
-      { code: 'MDE411', name: 'Urgencias y emergencias 1', uv: 5, requisitos: [] },
-      { code: 'MDE412', name: 'Seminarios integradores 1', uv: 3, requisitos: [] },
-      { code: 'MDE208', name: 'Metodología de investigación', uv: 3, requisitos: [] },
-      { code: 'MDE413', name: 'Temas avanzados en práctica médica 1', uv: 4, requisitos: [] },
-      { code: 'MDE414', name: 'Medicina alternativa y complementaria', uv: 4, requisitos: [] },
-    ],
-    5: [
-      { code: 'HIS101', name: 'Historia de Honduras', uv: 3, requisitos: [] },
-      { code: 'MDE508', name: 'Medicina interna 2', uv: 5, requisitos: ['MDE407'] },
-      { code: 'MDE509', name: 'Pediatría 2', uv: 5, requisitos: ['MDE408'] },
-      { code: 'BMD430', name: 'Tecnologías biomédicas 2', uv: 3, requisitos: ['BMD429'] },
-      { code: 'ART_DEP', name: 'Electiva arte / deporte', uv: 3, requisitos: [] },
-      { code: 'MDE510', name: 'Cirugía 2', uv: 5, requisitos: ['MDE409'] },
-      { code: 'MDE511', name: 'Ginecología y obstetricia 2', uv: 5, requisitos: ['MDE410'] },
-      { code: 'MDE212', name: 'Generación de empresas en salud', uv: 3, requisitos: ['MDE208'] },
-      { code: 'MDE512', name: 'Urgencias y emergencias 2', uv: 5, requisitos: ['MDE411'] },
-      { code: 'MDE513', name: 'Seminarios integradores 2', uv: 3, requisitos: ['MDE412'] },
-      { code: 'MDE304', name: 'Gestión de servicios en salud', uv: 3, requisitos: ['MDE212'] },
-      { code: 'MDE514', name: 'Temas avanzados en práctica médica 2', uv: 4, requisitos: ['MDE413'] },
-      { code: 'MDE515', name: 'Cuidados paliativos y de hospicio', uv: 4, requisitos: [] },
-    ],
-    6: [
-      { code: 'MDE605', name: 'Internado ginecoobstetrícia', uv: 16, requisitos: ['*'] },
-      { code: 'MDE606', name: 'Internado pediatría', uv: 16, requisitos: ['*'] },
-      { code: 'MDE607', name: 'Internado cirugía', uv: 16, requisitos: ['*'] },
-      { code: 'MDE608', name: 'Internado medicina interna', uv: 16, requisitos: ['*'] },
-    ],
-    7: [
-      { code: 'MDE702', name: 'Servicio social obligatorio 1 año', uv: 0, requisitos: ['*'] },
-      { code: 'MDE703', name: 'Servicio social obligatorio 6 meses', uv: 0, requisitos: ['*'] },
-    ],
-  };
+    // Primer año - Periodo 3
+    { codigo: "MDE115", nombre: "Bases de la terapéutica medicamentosa", creditos: 4, req: ["MDE113"] },
+    { codigo: "MDE116", nombre: "Procesos celulares y moleculares 3", creditos: 3, req: ["MDE113"] },
+    { codigo: "MDE117", nombre: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 1", creditos: 4, req: ["MDE114"] },
+    { codigo: "MDE203", nombre: "Prácticas médicas 1", creditos: 4, req: ["MDE113", "MDE114"] },
 
-  function cumpleRequisitos(requisitos, progreso) {
-    if (requisitos.includes('*')) {
-      for (let y = 1; y <= 6; y++) {
-        for (const clase of classesByYear[y]) {
-          if (!progreso[clase.code]) return false;
-        }
+    // Primer año - Periodo 4
+    { codigo: "ESP103", nombre: "Comunicación oral y escrita", creditos: 4 },
+    { codigo: "MDE118", nombre: "Mecanismos de agresión y defensa 1", creditos: 4, req: ["MDE116"] },
+    { codigo: "MDE119", nombre: "SO 1 - Circulación, respiración, excreción y equilibrio ácido-básico 2", creditos: 4, req: ["MDE117"] },
+    { codigo: "MDE216", nombre: "Prácticas médicas 2", creditos: 4, req: ["MDE203"] },
+
+    // Segundo año - Periodo 5
+    { codigo: "ING105/EIEA1", nombre: "Inglés 1 / Electiva de idioma extranjero 1", creditos: 3 },
+    { codigo: "MDE217", nombre: "Mecanismos de agresión y defensa 2", creditos: 4, req: ["MDE118"] },
+    { codigo: "MDE218", nombre: "SO 2 - Digestión y absorción, reproducción y control endocrino 1", creditos: 4 },
+    { codigo: "MDE219", nombre: "Prácticas médicas 3", creditos: 4, req: ["MDE216"] },
+
+    // Segundo año - Periodo 6
+    { codigo: "ING106/EIEA2", nombre: "Inglés 2 / Electiva de idioma extranjero 2", creditos: 3, req: ["ING105/EIEA1"] },
+    { codigo: "MDE220", nombre: "Mecanismos de agresión y defensa 3", creditos: 4, req: ["MDE217"] },
+    { codigo: "MDE221", nombre: "SO 2 - Digestión y absorción, reproducción y control endocrino 2", creditos: 4, req: ["MDE218"] },
+    { codigo: "MDE222", nombre: "Prácticas médicas 4", creditos: 4, req: ["MDE219"] },
+
+    // Segundo año - Periodo 7
+    { codigo: "ING107/EIEA3", nombre: "Inglés 3 / Electiva de idioma extranjero 3", creditos: 3, req: ["ING106/EIEA2"] },
+    { codigo: "MDE223", nombre: "Mecanismos de agresión y defensa 4", creditos: 4, req: ["MDE220"] },
+    { codigo: "MDE224", nombre: "SO 3 - Soporte, locomoción y control neural 1", creditos: 4 },
+    { codigo: "MDE225", nombre: "Prácticas médicas 5", creditos: 4, req: ["MDE222"] },
+
+    // Segundo año - Periodo 8
+    { codigo: "ING108/EIEA4", nombre: "Inglés 4 / Electiva de idioma extranjero 4", creditos: 3, req: ["ING107/EIEA3"] },
+    { codigo: "MDE226", nombre: "Neurociencias y comportamiento", creditos: 4 },
+    { codigo: "MDE227", nombre: "SO 3 - Soporte, locomoción y control neural 2", creditos: 4, req: ["MDE224"] },
+    { codigo: "MDE228", nombre: "Prácticas médicas 6", creditos: 4, req: ["MDE225"] },
+
+    // Tercer año - Periodo 9
+    { codigo: "ING109/EIEB1", nombre: "Inglés 5 / Electiva de idioma extranjero 1", creditos: 3, req: ["ING108/EIEA4"] },
+    { codigo: "MDE315", nombre: "Salud infantil y del adolescente", creditos: 5 },
+    { codigo: "MDE316", nombre: "Salud de la mujer", creditos: 5 },
+    { codigo: "MDE317", nombre: "Clínica integrada 1", creditos: 3 },
+
+    // Tercer año - Periodo 10
+    { codigo: "ING110/EIEB2", nombre: "Inglés 6 / Electiva de idioma extranjero 2", creditos: 3, req: ["ING109/EIEB1"] },
+    { codigo: "MDE318", nombre: "Sistemas de salud", creditos: 4 },
+    { codigo: "MDE319", nombre: "Salud del adulto", creditos: 5 },
+    { codigo: "MDE320", nombre: "Clínica integrada 2", creditos: 3, req: ["MDE317"] },
+
+    // Tercer año - Periodo 11
+    { codigo: "ING111/EIEB3", nombre: "Inglés 7 / Electiva de idioma extranjero 3", creditos: 3, req: ["ING110/EIEB2"] },
+    { codigo: "MDE321", nombre: "Prevención y promoción de la salud 1", creditos: 4 },
+    { codigo: "MDE322", nombre: "Salud del adulto mayor", creditos: 5 },
+    { codigo: "MDE323", nombre: "Clínica integrada 3", creditos: 3, req: ["MDE320"] },
+
+    // Tercer año - Periodo 12
+    { codigo: "ING112/EIEB4", nombre: "Inglés 8 / Electiva de idioma extranjero 4", creditos: 3, req: ["ING111/EIEB3"] },
+    { codigo: "MDE324", nombre: "Prevención y promoción de la salud 2", creditos: 4, req: ["MDE321"] },
+    { codigo: "MDE325", nombre: "Salud mental", creditos: 5 },
+    { codigo: "MDE326", nombre: "Clínica integrada 4", creditos: 3, req: ["MDE323"] },
+
+    // Cuarto año - Periodo 13
+    { codigo: "LCC104", nombre: "Ofimática avanzada", creditos: 2 },
+    { codigo: "MDE407", nombre: "Medicina interna 1", creditos: 5 },
+    { codigo: "MDE408", nombre: "Pediatría 1", creditos: 5 },
+    { codigo: "BMD429", nombre: "Tecnologías biomédicas 1", creditos: 3 },
+
+    // Cuarto año - Periodo 14
+    { codigo: "SOC101", nombre: "Sociología", creditos: 3 },
+    { codigo: "MDE409", nombre: "Cirugía 1", creditos: 5 },
+    { codigo: "MDE410", nombre: "Ginecología y obstetricia 1", creditos: 5 },
+
+    // Cuarto año - Periodo 15
+    { codigo: "FIL101", nombre: "Filosofía", creditos: 3 },
+    { codigo: "MDE411", nombre: "Urgencias y emergencias 1", creditos: 5 },
+    { codigo: "MDE412", nombre: "Seminarios integradores 1", creditos: 3 },
+
+    // Cuarto año - Periodo 16
+    { codigo: "MDE413", nombre: "Medicina interna 2", creditos: 5 },
+    { codigo: "MDE414", nombre: "Pediatría 2", creditos: 5 },
+    { codigo: "MDE415", nombre: "Seminarios integradores 2", creditos: 3 },
+
+    // Quinto año - Periodo 17
+    { codigo: "MDE511", nombre: "Cirugía 2", creditos: 6 },
+    { codigo: "MDE512", nombre: "Medicina 3", creditos: 6 },
+    { codigo: "MDE513", nombre: "Clínica quirúrgica 1", creditos: 4 },
+
+    // Quinto año - Periodo 18
+    { codigo: "MDE514", nombre: "Pediatría 3", creditos: 5 },
+    { codigo: "MDE515", nombre: "Clínica médica 1", creditos: 6 },
+
+    // Quinto año - Periodo 19
+    { codigo: "MDE516", nombre: "Salud pública avanzada", creditos: 4 },
+
+    // Quinto año - Periodo 20
+    { codigo: "MDE517", nombre: "Medicina legal y forense", creditos: 3 },
+
+    // Sexto año - Periodo 21
+    { codigo: "MDE621", nombre: "Internado rural", creditos: 12 },
+
+    // Sexto año - Periodo 22
+    { codigo: "MDE622", nombre: "Internado hospitalario 1", creditos: 12 },
+
+    // Sexto año - Periodo 23
+    { codigo: "MDE623", nombre: "Internado hospitalario 2", creditos: 12 },
+
+    // Sexto año - Periodo 24
+    { codigo: "MDE624", nombre: "Internado comunitario", creditos: 12 },
+
+    // Séptimo año - Periodo 25 a 27
+    { codigo: "MDE701", nombre: "Rotación electiva 1", creditos: 4 },
+    { codigo: "MDE702", nombre: "Rotación electiva 2", creditos: 4 },
+    { codigo: "MDE703", nombre: "Rotación electiva 3", creditos: 4 },
+  ];
+
+  const contenedor = document.getElementById("contenedor");
+  const completadas = JSON.parse(localStorage.getItem("completadas") || "[]");
+
+  datos.forEach((clase, i) => {
+    const div = document.createElement("div");
+    div.className = "clase";
+    div.innerHTML = `
+      <div class="codigo">${clase.codigo}</div>
+      <div>${clase.nombre}</div>
+      <div class="uv"># de créditos (c): ${clase.creditos}</div>
+      <div class="req">${clase.req ? `Requiere: ${clase.req.join(', ')}` : ""}</div>
+    `;
+    div.dataset.codigo = clase.codigo;
+
+    // Asignar grupo por índice para distribuir en periodos
+    // Hay 25 grupos, distribuidos 4 periodos x 4 años + 4 periodos extras + años extras
+    // Aquí simple, asigno según i para los grupos (ajusta según tus periodos)
+    let grupoIndex = 1;
+    if (i < 4) grupoIndex = 1;
+    else if (i < 8) grupoIndex = 2;
+    else if (i < 12) grupoIndex = 3;
+    else if (i < 16) grupoIndex = 4;
+    else if (i < 20) grupoIndex = 5;
+    else if (i < 24) grupoIndex = 6;
+    else if (i < 28) grupoIndex = 7;
+    else if (i < 32) grupoIndex = 8;
+    else if (i < 36) grupoIndex = 9;
+    else if (i < 40) grupoIndex = 10;
+    else if (i < 44) grupoIndex = 11;
+    else if (i < 48) grupoIndex = 12;
+    else if (i < 52) grupoIndex = 13;
+    else if (i < 56) grupoIndex = 14;
+    else if (i < 60) grupoIndex = 15;
+    else if (i < 64) grupoIndex = 16;
+    else if (i < 67) grupoIndex = 17;
+    else if (i < 69) grupoIndex = 18;
+    else if (i < 70) grupoIndex = 19;
+    else if (i < 71) grupoIndex = 20;
+    else if (i < 72) grupoIndex = 21;
+    else if (i < 73) grupoIndex = 22;
+    else if (i < 74) grupoIndex = 23;
+    else if (i < 75) grupoIndex = 24;
+    else grupoIndex = 25;
+
+    document.querySelector(`#grupo-${grupoIndex} .clases`).appendChild(div);
+  });
+
+  const clasesDOM = document.querySelectorAll(".clase");
+
+  function actualizarActivas() {
+    clasesDOM.forEach(div => {
+      const codigo = div.dataset.codigo;
+      const clase = datos.find(c => c.codigo === codigo);
+      if (!clase.req || clase.req.every(r => completadas.includes(r))) {
+        div.classList.add("activa");
+      } else {
+        div.classList.remove("activa");
       }
-      return true;
-    }
-    return requisitos.every(req => progreso[req]);
-  }
-
-  function guardarProgreso(data) {
-    localStorage.setItem('progresoMallaMedicina', JSON.stringify(data));
-  }
-
-  function cargarProgreso() {
-    return JSON.parse(localStorage.getItem('progresoMallaMedicina')) || {};
-  }
-
-  function mostrarClases(año) {
-    gridContainer.innerHTML = '';
-    const progreso = cargarProgreso();
-    const clases = classesByYear[año] || [];
-    let uvCompletadas = 0;
-
-    clases.forEach(clase => {
-      const box = document.createElement('div');
-      box.className = 'class-box';
-      box.dataset.code = clase.code;
-
-      const requisitosCumplidos = cumpleRequisitos(clase.requisitos, progreso);
-      if (!requisitosCumplidos) {
-        box.classList.add('locked');
-      }
-
-      if (progreso[clase.code]) {
-        box.classList.add('toggled');
-        uvCompletadas += clase.uv;
-      }
-
-      box.innerHTML = `
-        <div class="class-code">${clase.code}</div>
-        <div class="class-name">${clase.name}</div>
-        <div class="class-uv">UV: ${clase.uv}</div>
-      `;
-
-      box.addEventListener('click', () => {
-        if (box.classList.contains('locked')) return;
-
-        const toggled = box.classList.toggle('toggled');
-        progreso[clase.code] = toggled;
-        guardarProgreso(progreso);
-        mostrarClases(año);
-      });
-
-      gridContainer.appendChild(box);
     });
-
-    uvCounter.textContent = `UV Completadas: ${uvCompletadas}`;
-
-    // Cambiar imagen según el año
-    kittyImage.src = kittyImagesByYear[año] || kittyImagesByYear[1];
   }
 
-  yearSelect.addEventListener('change', () => {
-    mostrarClases(yearSelect.value);
+  function actualizarContador() {
+    let total = completadas.reduce((sum, codigo) => {
+      const clase = datos.find(c => c.codigo === codigo);
+      return sum + (clase ? clase.creditos : 0);
+    }, 0);
+    document.getElementById("contador").textContent = `Créditos Completados: ${total} / 347`;
+  }
+
+  clasesDOM.forEach(div => {
+    const codigo = div.dataset.codigo;
+    if (completadas.includes(codigo)) {
+      div.classList.add("completada");
+    }
+    div.addEventListener("click", () => {
+      if (!div.classList.contains("activa") && !div.classList.contains("completada")) return;
+      if (div.classList.contains("completada")) {
+        div.classList.remove("completada");
+        const index = completadas.indexOf(codigo);
+        if (index > -1) completadas.splice(index, 1);
+      } else {
+        div.classList.add("completada");
+        completadas.push(codigo);
+      }
+      localStorage.setItem("completadas", JSON.stringify(completadas));
+      actualizarActivas();
+      actualizarContador();
+    });
   });
 
-  resetBtn.addEventListener('click', () => {
-    if (confirm('¿Quieres reiniciar todo el progreso?')) {
-      localStorage.removeItem('progresoMallaMedicina');
-      mostrarClases(yearSelect.value);
+  actualizarActivas();
+  actualizarContador();
+
+  document.getElementById("reiniciar").addEventListener("click", () => {
+    if (confirm("¿Estás segura de que quieres reiniciar tu progreso?")) {
+      localStorage.removeItem("completadas");
+      location.reload();
     }
   });
 
-  mostrarClases(yearSelect.value);
-</script>
+  // Imágenes Hello Kitty por grupo (puedes cambiar URLs a otras imágenes que prefieras)
+  const imagenesPorGrupo = {
+    1: "https://i.imgur.com/LdDbk5W.png",  // Hello Kitty médica
+    2: "https://i.imgur.com/Vmj8nXE.png",  // Hello Kitty con libro
+    3: "https://i.imgur.com/nWysPip.png",  // Hello Kitty con bata blanca
+    4: "https://i.imgur.com/nWysPip.png",
+    5: "https://i.imgur.com/8T8mrTa.png",  // Hello Kitty cirujana
+    6: "https://i.imgur.com/8T8mrTa.png",
+    7: "https://i.imgur.com/NfNmfPi.png",  // Hello Kitty interna
+    8: "https://i.imgur.com/NfNmfPi.png",
+    9: "https://i.imgur.com/qPe78Ee.png",  // Hello Kitty graduada médica
+    10: "https://i.imgur.com/qPe78Ee.png",
+    11: "https://i.imgur.com/JGqA3eE.png", // Hello Kitty mochilera médica
+    12: "https://i.imgur.com/JGqA3eE.png",
+    13: "https://i.imgur.com/JGqA3eE.png",
+    14: "https://i.imgur.com/JGqA3eE.png",
+    15: "https://i.imgur.com/JGqA3eE.png",
+    16: "https://i.imgur.com/JGqA3eE.png",
+    17: "https://i.imgur.com/JGqA3eE.png",
+    18: "https://i.imgur.com/JGqA3eE.png",
+    19: "https://i.imgur.com/JGqA3eE.png",
+    20: "https://i.imgur.com/JGqA3eE.png",
+    21: "https://i.imgur.com/JGqA3eE.png",
+    22: "https://i.imgur.com/JGqA3eE.png",
+    23: "https://i.imgur.com/JGqA3eE.png",
+    24: "https://i.imgur.com/JGqA3eE.png",
+    25: "https://i.imgur.com/JGqA3eE.png"
+  };
 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const grupoId = entry.target.id.split("-")[1];
+        const imgSrc = imagenesPorGrupo[grupoId] || imagenesPorGrupo[1];
+        document.getElementById("personaje-img").src = imgSrc;
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[id^="grupo-"]').forEach(grupo => observer.observe(grupo));
+</script>
 </body>
 </html>
