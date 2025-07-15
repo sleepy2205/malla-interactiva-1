@@ -2,16 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Malla Interactiva Medicina - Hello Kitty</title>
+  <title>Malla Interactiva Medicina</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
-      background-color: #ffe6f0;
+      background-color: #ffe4ec;
       font-family: 'Quicksand', sans-serif;
       color: #333;
       margin: 0;
       padding: 20px;
-      background-image: url('https://www.transparenttextures.com/patterns/pw-maze-white.png');
+      background-image: url('https://www.transparenttextures.com/patterns/white-fibers.png');
     }
     h1 {
       text-align: center;
@@ -19,127 +19,33 @@
       font-weight: 600;
       margin-top: 20px;
       margin-bottom: 15px;
-      background-image: linear-gradient(to right, #ff6f91, #ff99c8);
+      background-image: linear-gradient(to right, #f48fb1, #f06292);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    #contador {
-      text-align: center;
-      margin: 10px 0;
-      font-weight: bold;
-      color: #d81b60;
-    }
-
-    #reiniciar {
-      display: block;
-      margin: 10px auto 30px auto;
-      background-color: #f06292;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 600;
-      box-shadow: 0 4px 8px rgba(240, 98, 146, 0.4);
-      transition: background-color 0.3s;
-    }
-    #reiniciar:hover {
-      background-color: #e91e63;
-    }
-
-    .clases {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-    }
-
-    .clase {
-      background-color: #ffbfdc;
-      color: #520026;
-      border-radius: 16px;
-      padding: 18px;
-      width: 230px;
-      box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
-      transition: 0.3s;
-      cursor: pointer;
-      opacity: 0.5;
-      pointer-events: none;
-      position: relative;
-      user-select: none;
-    }
-
-    .clase.activa {
-      opacity: 1;
-      pointer-events: auto;
-      transform: scale(1.03);
-    }
-
-    .clase:hover {
-      box-shadow: 0 6px 14px rgba(255, 105, 180, 0.7);
-    }
-
-    .clase.completada {
-      background-color: #ffd3e3;
-      color: #880e4f;
-      text-decoration: line-through;
-    }
-
-    h2 {
-      color: #d81b60;
-      margin-top: 40px;
-      text-align: center;
-    }
-
-    /* Hello Kitty icon arriba */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      width: 70px;
-      height: 70px;
-      background-image: url('https://upload.wikimedia.org/wikipedia/en/0/0b/Hello_Kitty.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 0.9;
-      z-index: 999;
-    }
-
-    /* Icono de medicina en cada clase */
-    .clase::after {
-      content: "🩺";
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-size: 1.2em;
-    }
-
     #personaje-container {
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
 
     #personaje-img {
-      width: 120px;
-      max-height: 120px;
+      width: 100px;
+      max-height: 100px;
       object-fit: contain;
-      margin: 0 auto;
-      transition: 0.5s ease;
+      opacity: 0.95;
+      display: inline-block;
+      transition: 0.3s ease;
     }
   </style>
 </head>
 <body>
   <div id="personaje-container">
-    <img
-      id="personaje-img"
-      src="https://i.imgur.com/LdDbk5W.png"
-      alt="Hello Kitty médica"
-    />
+    <img id="personaje-img" src="https://i.imgur.com/6XJcoCE.png" alt="Hello Kitty doctora" />
   </div>
-  <h1>🎀 Plan de Estudio Medicina UNITEC 🎀</h1>
+
+  <h1>💕 Plan de Estudio Medicina UNAH 💉</h1>
+
   <div id="contador">Créditos Completados: 0 / 347</div>
   <button id="reiniciar">Reiniciar progreso</button>
   <div id="contenedor">
