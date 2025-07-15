@@ -131,3 +131,121 @@
     <div id="grupo-10"><h2>📘 Sexto Año</h2><div class="clases"></div></div>
     <div id="grupo-11"><h2>📘 Séptimo Año</h2><div class="clases"></div></div>
   </div>
+<script>
+const datos = [
+  // Primer Año - Periodo 1
+  { codigo: "MAT101", nombre: "Introducción al Álgebra", uv: 4 },
+  { codigo: "MDE109", nombre: "Desarrollo humano y social", uv: 4 },
+  { codigo: "MDE110", nombre: "Biología", uv: 4 },
+  { codigo: "QUI105", nombre: "Química general", uv: 4 },
+  { codigo: "FIS101", nombre: "Física general", uv: 4 },
+  { codigo: "LEN101", nombre: "Lenguaje y comunicación", uv: 4 },
+
+  // Segundo Periodo
+  { codigo: "BIO102", nombre: "Anatomía humana", uv: 4, req: ["MDE110"] },
+  { codigo: "QUI106", nombre: "Química orgánica", uv: 4, req: ["QUI105"] },
+  { codigo: "PSI201", nombre: "Psicología general", uv: 4 },
+  { codigo: "FIL102", nombre: "Ética profesional", uv: 4 },
+  { codigo: "MAT102", nombre: "Estadística", uv: 4, req: ["MAT101"] },
+  { codigo: "CSO101", nombre: "Sociología", uv: 4 },
+
+  // (Agrega tus periodos del 3 al 10 aquí como ya los tenías antes)
+
+  // Sexto Año
+  { codigo: "MDE605", nombre: "Internado ginecoobstetrícia", uv: 16, req: ["TODAS"] },
+  { codigo: "MDE606", nombre: "Internado pediatría", uv: 16, req: ["TODAS"] },
+  { codigo: "MDE607", nombre: "Internado cirugía", uv: 16, req: ["TODAS"] },
+  { codigo: "MDE608", nombre: "Internado medicina interna", uv: 16, req: ["TODAS"] },
+
+  // Séptimo Año
+  { codigo: "MDE702", nombre: "Servicio social obligatorio 1 año", uv: 0, req: ["TODAS"] },
+  { codigo: "MDE703", nombre: "Servicio social obligatorio 6 meses", uv: 0, req: ["TODAS"] }
+];
+
+const contenedor = document.getElementById("contenedor");
+const completadas = JSON.parse(localStorage.getItem("completadas") || "[]");
+
+datos.forEach((clase, i) => {
+  const div = document.createElement("div");
+  div.className = "clase";
+  div.innerHTML = `
+    <div class="codigo">${clase.codigo}</div>
+    <div>${clase.nombre}</div>
+    <div class="uv">UV: ${clase.uv}</div>
+    <div class="req">${clase.req ? `Requiere: ${Array.isArray(clase.req) ? clase.req.join(", ") : clase.req}` : ""}</div>
+  `;
+  div.dataset.codigo = clase.codigo;
+
+  const grupoIndex = i < 6 ? 1 :
+                     i < 12 ? 2 :
+                     i < 18 ? 3 :
+                     i < 24 ? 4 :
+                     i < 30 ? 5 :
+                     i < 36 ? 6 :
+                     i < 42 ? 7 :
+                     i < 48 ? 8 :
+                     i < 54 ? 9 :
+                     i < 58 ? 10 :
+                     i < 63 ? 11 : 11;
+
+  document.querySelector(`#grupo-${grupoIndex} .clases`).appendChild(div);
+});
+
+const clasesDOM = document.querySelectorAll(".clase");
+
+function actualizarActivas() {
+  clasesDOM.forEach(div => {
+    const codigo = div.dataset.codigo;
+    const clase = datos.find(c => c.codigo === codigo);
+    const requisitos = clase.req;
+
+    if (!requisitos || requisitos === "TODAS" && completadas.length >= datos.length - 2 || 
+        Array.isArray(requisitos) && requisitos.every(r => completadas.includes(r))) {
+      div.classList.add("activa");
+    } else {
+      div.classList.remove("activa");
+    }
+  });
+}
+
+function actualizarContador() {
+  let total = completadas.reduce((sum, codigo) => {
+    const clase = datos.find(c => c.codigo === codigo);
+    return sum + (clase ? clase.uv : 0);
+  }, 0);
+  document.getElementById("contador").textContent = `UV Completadas: ${total} / 409`;
+}
+
+clasesDOM.forEach(div => {
+  const codigo = div.dataset.codigo;
+  if (completadas.includes(codigo)) {
+    div.classList.add("completada");
+  }
+  div.addEventListener("click", () => {
+    if (!div.classList.contains("activa") && !div.classList.contains("completada")) return;
+    if (div.classList.contains("completada")) {
+      div.classList.remove("completada");
+      const index = completadas.indexOf(codigo);
+      if (index > -1) completadas.splice(index, 1);
+    } else {
+      div.classList.add("completada");
+      completadas.push(codigo);
+    }
+    localStorage.setItem("completadas", JSON.stringify(completadas));
+    actualizarActivas();
+    actualizarContador();
+  });
+});
+
+actualizarActivas();
+actualizarContador();
+
+document.getElementById("reiniciar").addEventListener("click", () => {
+  if (confirm("¿Estás segura de que quieres reiniciar tu progreso?")) {
+    localStorage.removeItem("completadas");
+    location.reload();
+  }
+});
+</script>
+</body>
+</html>
