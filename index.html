@@ -2,64 +2,46 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Plan de Estudio Medicina UNITEC - Hello Kitty</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Plan de Estudio Medicina UNITEC</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #fff0f6;
+      background-color: #fff0f5;
       font-family: 'Quicksand', sans-serif;
-      color: #b33951;
+      color: #333;
       margin: 0;
       padding: 20px;
-      background-image: url('https://www.transparenttextures.com/patterns/pw-maze-white.png');
     }
+
     h1 {
       text-align: center;
       font-size: 2.2em;
       font-weight: 600;
       margin-top: 20px;
       margin-bottom: 15px;
-      background-image: linear-gradient(to right, #ff9a9e, #fbc7c7);
+      background-image: linear-gradient(to right, #f06292, #f8bbd0);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-    }
-
-    #personaje-container {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    #personaje-img {
-      width: 120px;
-      max-height: 120px;
-      object-fit: contain;
-      opacity: 0.95;
-      display: inline-block;
-      transition: 0.3s ease;
-      border-radius: 20px;
     }
 
     #contador {
       text-align: center;
       margin: 10px 0;
       font-weight: bold;
-      color: #b33951;
+      color: #d81b60;
     }
 
     #reiniciar {
       display: block;
       margin: 10px auto 30px auto;
-      background-color: #ff6b81;
+      background-color: #ec407a;
       color: white;
       border: none;
       padding: 10px 18px;
       border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
-      box-shadow: 0 4px 8px rgba(255, 107, 129, 0.4);
-      transition: background-color 0.3s ease;
-    }
-    #reiniciar:hover {
-      background-color: #d94365;
+      box-shadow: 0 4px 8px rgba(240, 98, 146, 0.4);
     }
 
     .clases {
@@ -70,18 +52,18 @@
     }
 
     .clase {
-      background-color: #ffc1cc;
-      color: #7d2433;
+      background-color: #f8bbd0;
+      color: #333;
       border-radius: 16px;
       padding: 18px;
-      width: 250px;
-      box-shadow: 0 4px 12px rgba(192, 33, 55, 0.4);
+      width: 180px;
+      box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
       transition: 0.3s;
       cursor: pointer;
       opacity: 0.5;
       pointer-events: none;
       position: relative;
-      user-select: none;
+      text-align: center;
     }
 
     .clase.activa {
@@ -91,38 +73,33 @@
     }
 
     .clase:hover {
-      box-shadow: 0 6px 18px rgba(192, 33, 55, 0.6);
+      box-shadow: 0 6px 14px rgba(240, 98, 146, 0.4);
     }
 
     .clase.completada {
-      background-color: #ffe3e6;
-      color: #551b22;
+      background-color: #fce4ec;
+      color: #777;
       text-decoration: line-through;
     }
 
-    .clase .codigo {
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .clase .uv {
-      font-weight: 600;
-      margin-top: 6px;
-    }
-
-    .clase .req {
-      font-size: 0.85em;
-      margin-top: 8px;
-      color: #b33951cc;
-    }
-
     h2 {
-      color: #b33951;
+      color: #ec407a;
       margin-top: 40px;
       text-align: center;
     }
 
-    /* Icono médico en cada clase */
+    #personaje-container {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #personaje-img {
+      width: 120px;
+      max-height: 120px;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
     .clase::after {
       content: "🩺";
       position: absolute;
@@ -133,190 +110,24 @@
   </style>
 </head>
 <body>
-
   <div id="personaje-container">
-    <img id="personaje-img" src="./a3631af6-2745-497d-83dc-23b2f5ed3850.png" alt="Hello Kitty doctora" />
+    <img id="personaje-img" src="https://i.imgur.com/a3631af6-2745-497d-83dc-23b2f5ed3850.png" alt="Hello Kitty médica">
   </div>
 
-    <h1>💕 Plan de Estudio Medicina UNITEC 💉</h1>
-
-  <div id="contador">Créditos completados: 0 / 395</div>
+  <h1>💖 Plan de Estudio Medicina UNITEC 🩺</h1>
+  <div id="contador">UV Completadas: 0 / 409</div>
   <button id="reiniciar">Reiniciar progreso</button>
 
   <div id="contenedor">
-    <div id="grupo-1"><h2>📘 Primer Año - Periodo 1</h2><div class="clases"></div></div>
-    <div id="grupo-2"><h2>📘 Primer Año - Periodo 2</h2><div class="clases"></div></div>
-    <div id="grupo-3"><h2>📘 Primer Año - Periodo 3</h2><div class="clases"></div></div>
-    <div id="grupo-4"><h2>📘 Primer Año - Periodo 4</h2><div class="clases"></div></div>
-
-    <div id="grupo-5"><h2>📘 Segundo Año - Periodo 5</h2><div class="clases"></div></div>
-    <div id="grupo-6"><h2>📘 Segundo Año - Periodo 6</h2><div class="clases"></div></div>
-    <div id="grupo-7"><h2>📘 Segundo Año - Periodo 7</h2><div class="clases"></div></div>
-    <div id="grupo-8"><h2>📘 Segundo Año - Periodo 8</h2><div class="clases"></div></div>
-
-    <div id="grupo-9"><h2>📘 Tercer Año - Periodo 9</h2><div class="clases"></div></div>
-    <div id="grupo-10"><h2>📘 Tercer Año - Periodo 10</h2><div class="clases"></div></div>
-    <div id="grupo-11"><h2>📘 Tercer Año - Periodo 11</h2><div class="clases"></div></div>
-    <div id="grupo-12"><h2>📘 Tercer Año - Periodo 12</h2><div class="clases"></div></div>
-
-    <div id="grupo-13"><h2>📘 Cuarto Año - Periodo 13</h2><div class="clases"></div></div>
-    <div id="grupo-14"><h2>📘 Cuarto Año - Periodo 14</h2><div class="clases"></div></div>
-    <div id="grupo-15"><h2>📘 Cuarto Año - Periodo 15</h2><div class="clases"></div></div>
-    <div id="grupo-16"><h2>📘 Cuarto Año - Periodo 16</h2><div class="clases"></div></div>
-
-    <div id="grupo-17"><h2>📘 Quinto Año - Periodo 17</h2><div class="clases"></div></div>
-    <div id="grupo-18"><h2>📘 Quinto Año - Periodo 18</h2><div class="clases"></div></div>
-    <div id="grupo-19"><h2>📘 Quinto Año - Periodo 19</h2><div class="clases"></div></div>
-    <div id="grupo-20"><h2>📘 Quinto Año - Periodo 20</h2><div class="clases"></div></div>
-
-    <div id="grupo-21"><h2>📘 Sexto Año - Periodo 21</h2><div class="clases"></div></div>
-    <div id="grupo-22"><h2>📘 Sexto Año - Periodo 22</h2><div class="clases"></div></div>
-    <div id="grupo-23"><h2>📘 Sexto Año - Periodo 23</h2><div class="clases"></div></div>
-    <div id="grupo-24"><h2>📘 Sexto Año - Periodo 24</h2><div class="clases"></div></div>
-
-    <div id="grupo-25"><h2>📘 Séptimo Año - Periodos 25 a 27</h2><div class="clases"></div></div>
+    <div id="grupo-1"><h2>📘 Primer Año - Primer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-2"><h2>📘 Primer Año - Segundo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-3"><h2>📘 Segundo Año - Tercer Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-4"><h2>📘 Segundo Año - Cuarto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-5"><h2>📘 Tercer Año - Quinto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-6"><h2>📘 Tercer Año - Sexto Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-7"><h2>📘 Cuarto Año - Séptimo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-8"><h2>📘 Cuarto Año - Octavo Periodo</h2><div class="clases"></div></div>
+    <div id="grupo-9"><h2>📘 Quinto Año</h2><div class="clases"></div></div>
+    <div id="grupo-10"><h2>📘 Sexto Año</h2><div class="clases"></div></div>
+    <div id="grupo-11"><h2>📘 Séptimo Año</h2><div class="clases"></div></div>
   </div>
-
-<script>
-  // Datos de todas las clases con requisitos y UVs (agregado sexto y séptimo año)
-  const datos = [
-    // Primer año (4 periodos)
-    {codigo:"MAT101", nombre:"Introducción al álgebra", uv:4},
-    {codigo:"MDE109", nombre:"Desarrollo humano y social", uv:4},
-    {codigo:"MDE110", nombre:"Procesos celulares y moleculares 1", uv:3},
-    {codigo:"MDE111", nombre:"Estructura y función 1", uv:4},
-
-    // Segundo año (4 periodos)
-    {codigo:"MDE201", nombre:"Procesos celulares y moleculares 2", uv:3, req:["MDE110"]},
-    {codigo:"MDE202", nombre:"Estructura y función 2", uv:4, req:["MDE111"]},
-    {codigo:"MDE203", nombre:"Bioquímica", uv:4, req:["MDE110"]},
-    {codigo:"MDE204", nombre:"Fisiología", uv:4, req:["MDE111"]},
-
-    // Tercer año (4 periodos)
-    {codigo:"MDE301", nombre:"Microbiología", uv:4, req:["MDE203"]},
-    {codigo:"MDE302", nombre:"Patología", uv:4, req:["MDE204"]},
-    {codigo:"MDE303", nombre:"Farmacología", uv:4, req:["MDE204"]},
-    {codigo:"MDE304", nombre:"Inmunología", uv:4, req:["MDE301"]},
-
-    // Cuarto año (4 periodos)
-    {codigo:"MDE401", nombre:"Medicina interna I", uv:4, req:["MDE302"]},
-    {codigo:"MDE402", nombre:"Cirugía I", uv:4, req:["MDE302"]},
-    {codigo:"MDE403", nombre:"Ginecología y obstetricia I", uv:4, req:["MDE301"]},
-    {codigo:"MDE404", nombre:"Pediatría I", uv:4, req:["MDE301"]},
-
-    // Quinto año (4 periodos)
-    {codigo:"MDE501", nombre:"Medicina interna II", uv:4, req:["MDE401"]},
-    {codigo:"MDE502", nombre:"Cirugía II", uv:4, req:["MDE402"]},
-    {codigo:"MDE503", nombre:"Ginecología y obstetricia II", uv:4, req:["MDE403"]},
-    {codigo:"MDE504", nombre:"Pediatría II", uv:4, req:["MDE404"]},
-
-    // Sexto año (4 periodos, todos con requisito "Todos los anteriores")
-    {codigo:"MDE605", nombre:"Internado ginecoobstetrícia", uv:16, req:["MDE501","MDE502","MDE503","MDE504"]},
-    {codigo:"MDE606", nombre:"Internado pediatría", uv:16, req:["MDE501","MDE502","MDE503","MDE504"]},
-    {codigo:"MDE607", nombre:"Internado cirugía", uv:16, req:["MDE501","MDE502","MDE503","MDE504"]},
-    {codigo:"MDE608", nombre:"Internado medicina interna", uv:16, req:["MDE501","MDE502","MDE503","MDE504"]},
-
-    // Séptimo año (1 periodo, con requisito "Todos los anteriores")
-    {codigo:"MDE702", nombre:"Servicio social obligatorio 1 año", uv:0, req:["MDE605","MDE606","MDE607","MDE608"]},
-    {codigo:"MDE703", nombre:"Servicio social obligatorio 6 meses", uv:0, req:["MDE605","MDE606","MDE607","MDE608"]}
-  ];
-
-  // Suma total UV
-  const totalUV = datos.reduce((acc, c) => acc + c.uv, 0);
-
-  // Agrupar clases por periodo (usando grupos 1-25)
-  // Distribución basada en la info previa
-  const gruposClases = {
-    1: datos.slice(0,4),
-    2: datos.slice(4,8),
-    3: datos.slice(8,12),
-    4: datos.slice(12,16),
-    5: datos.slice(16,20),
-    6: datos.slice(20,24),
-    7: datos.slice(24,28),
-    8: datos.slice(28,32),
-    9: datos.slice(32,36),
-    10: datos.slice(36,40),
-    11: datos.slice(40,44),
-    12: datos.slice(44,48),
-    13: datos.slice(48,52),
-    14: datos.slice(52,56),
-    15: datos.slice(56,60),
-    16: datos.slice(60,64),
-    17: datos.slice(64,68),
-    18: datos.slice(68,72),
-    19: datos.slice(72,76),
-    20: datos.slice(76,80),
-    21: datos.slice(80,84), // Sexto año Periodo 21
-    22: datos.slice(84,88), // Sexto año Periodo 22
-    23: datos.slice(88,92), // Sexto año Periodo 23
-    24: datos.slice(92,96), // Sexto año Periodo 24
-    25: datos.slice(96,98)  // Séptimo año Periodo 25 a 27
-  };
-
-  let estado = JSON.parse(localStorage.getItem("helloKittyMedicinaEstado")) || {};
-
-  function actualizarContador() {
-    let totalCompletadas = 0;
-    datos.forEach(c => {
-      if (estado[c.codigo]) totalCompletadas += c.uv;
-    });
-    document.getElementById("contador").textContent = `Créditos completados: ${totalCompletadas} / ${totalUV}`;
-  }
-
-  // Para verificar si todos los requisitos están cumplidos
-  function puedeActivar(clase) {
-    if (!clase.req) return true;
-    return clase.req.every(r => estado[r]);
-  }
-
-  function renderizar() {
-    for(let i=1; i<=25; i++) {
-      const contenedorGrupo = document.querySelector(`#grupo-${i} .clases`);
-      contenedorGrupo.innerHTML = "";
-      (gruposClases[i] || []).forEach(clase => {
-        const div = document.createElement("div");
-        div.classList.add("clase");
-        if (estado[clase.codigo]) div.classList.add("completada");
-        if (puedeActivar(clase)) div.classList.add("activa");
-        div.innerHTML = `
-          <div class="codigo">${clase.codigo}</div>
-          <div class="nombre">${clase.nombre}</div>
-          <div class="uv">UV: ${clase.uv}</div>
-          <div class="req">${clase.req ? "Requiere: " + clase.req.join(", ") : "Sin requisitos"}</div>
-        `;
-        div.addEventListener("click", () => {
-          if (!div.classList.contains("activa")) return;
-          if (div.classList.contains("completada")) {
-            div.classList.remove("completada");
-            delete estado[clase.codigo];
-          } else {
-            div.classList.add("completada");
-            estado[clase.codigo] = true;
-          }
-          localStorage.setItem("helloKittyMedicinaEstado", JSON.stringify(estado));
-          renderizar();
-          actualizarContador();
-        });
-        contenedorGrupo.appendChild(div);
-      });
-    }
-  }
-
-  document.getElementById("reiniciar").onclick = () => {
-    if(confirm("¿Quieres reiniciar tu progreso?")) {
-      estado = {};
-      localStorage.removeItem("helloKittyMedicinaEstado");
-      renderizar();
-      actualizarContador();
-    }
-  };
-
-  renderizar();
-  actualizarContador();
-
-</script>
-
-</body>
-</html>
-
